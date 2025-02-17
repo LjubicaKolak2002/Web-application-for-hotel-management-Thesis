@@ -1,9 +1,25 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { Link } from "react-router-dom";
 
 const HomePageTest = () => {
     const storedUser = JSON.parse(localStorage.getItem("user"));
     const username = storedUser ? storedUser.name : null; 
+    const [role, setRole] = useState("");
+    const userString = localStorage.getItem("user");
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+        window.location.href = "/login";
+    }
+
+    useEffect(() => {
+        if (userString) {
+          const user = JSON.parse(userString);
+          const userRole = user.role;
+          setRole(userRole);
+        }
+      }, []);
+
 
     return (
         <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
@@ -11,9 +27,20 @@ const HomePageTest = () => {
                 <>
                     <h1 className="text-3xl font-bold mb-4">Welcome, {username}!</h1>
                     <p className="text-lg mb-6">You are successfully logged in.</p>
-                    <Link to="/logout" className="px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">
+                    <Link to="/logout">
                         Logout
                     </Link>
+                    {role === "admin" && (
+                        <>
+                            <p><Link to="/add-staff">
+                                Add staff
+                            </Link></p>
+                            <p>
+                                <Link to="/staff-list">Staff list</Link>
+                            </p>
+                           
+                        </>
+                    )}
                     
                 </>
             ) : (
@@ -28,6 +55,7 @@ const HomePageTest = () => {
                         Login
                     </Link>
                 </>
+                
             )}
         </div>
     );

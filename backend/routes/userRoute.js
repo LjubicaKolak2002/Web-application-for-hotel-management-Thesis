@@ -57,4 +57,75 @@ userRouter.route('/login').post(async (req, res) => {
   
 });
 
+//staff list
+userRouter.route('/staff-users').get(verifyJwt, async (req, res) => {
+    try {
+        const users = await User.find({ role: { $in: ["receptionist", "maid", "head maid"] } });
+
+        if (users.length > 0) {
+            res.json(users);
+        } 
+        else {
+            res.status(404).json({ error: "No staff members found." });
+        }
+    } 
+    catch (error) {
+        res.status(500).json({ error: "server error", details: error.message });
+    }
+});
+
+//staff by id
+userRouter.route('/staff-details/:staff_id').get(verifyJwt, (req, res) => {
+    const valid = mongoose.Types.ObjectId.isValid(req.params.staff_id);
+    if (!valid) {
+        return res.json({});
+    }
+    User.findById(req.params.staff_id).then(function(user) {
+        return res.json(user)
+    })
+})
+
+//all users role
+userRouter.get("/user-roles", async (req, res) => {
+    try {
+        const roles = await User.distinct("role"); 
+        res.json(roles);
+    } 
+    catch (error) {
+        res.status(500).json({ error: "Error fetching roles" });
+    }
+});
+
+//edit staff
+userRouter.route('/edit-staff/:staff_id').put(verifyJwt, (req, res) => {
+    try {
+        User.findOneAndUpdate({ _id: req.params.staff_id}, req.body, {new: true })
+        .then(function(updatedStaff) {
+            if (!updatedStaff) {
+                return res.json({error: "Can't find this staff user"})
+            }
+            return res.json(updatedStaff)
+        })
+    
+    }
+    catch (error) {
+        return res.json({error: "Can't update this staff user"})
+    }
+});
+
+//delete staff
+userRouter.route('/delete-staff/:staff_id').delete(verifyJwt, (req, res) => {
+    try {
+        User.findByIdAndDelete(req.params.staff_id).then(function(deletedStaff) {
+            if (deletedStaff) {
+                return res.json({deletedStaff: "deleted"});
+            }
+            return res.json({error: "Staff user not found"});
+        });
+    }
+    catch (error) {
+        return res.json({error: "error while deleting staff user"});
+    }
+    
+})
 module.exports = userRouter;
