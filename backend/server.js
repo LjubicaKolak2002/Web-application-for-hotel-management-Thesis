@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const userRouter = require("./routes/userRoute.js");
+const roomRouter = require("./routes/roomRoute.js");
 
 const app = express();
 
@@ -16,6 +17,7 @@ app.use(cors())
 
 const port = process.env.PORT || 5200;
 app.use('/api', userRouter)
+app.use('/api', roomRouter)
 
 
 

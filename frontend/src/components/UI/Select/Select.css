@@ -1,0 +1,10 @@
+.select {
+    width: 190px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    background: #fff;
+    cursor: pointer;
+}
+  
