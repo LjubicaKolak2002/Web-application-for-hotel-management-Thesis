@@ -13,6 +13,8 @@ import AddRoomFeature from "./components/Layout/AddRoomFeature/AddRoomFeature.js
 import AddRoom from "./components/Layout/AddRoom/AddRoom.js";
 import RoomList from "./components/Layout/RoomList/RoomList.js";
 import "bootstrap/dist/css/bootstrap.min.css";
+import BlockRoom from "./components/Layout/BlockRoom/BlockRoom.js";
+import UnblockRoom from "./components/Layout/UnblockRoom/UnblockRoom.js";
 
 function App() {
   return (
@@ -35,6 +37,8 @@ function App() {
             <Route path="/add-room-feature" element={<AddRoomFeature />} />
             <Route path="/add-room" element={<AddRoom />} />
             <Route path="/room-list" element={<RoomList />} />
+            <Route path="/block-room/:room_id" element={<BlockRoom />} />
+            <Route path="/unblock-room/:room_id" element={<UnblockRoom />} />
           </Routes>
         </Router>
       </header>
