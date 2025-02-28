@@ -142,4 +142,66 @@ roomRouter.route("/delete-room/:room_id").delete(verifyJwt, (req, res) => {
     return res.json({ error: "error" });
   }
 });
+
+//room by id
+roomRouter.route("/rooms/:room_id").get(verifyJwt, (req, res) => {
+  const valid = mongoose.Types.ObjectId.isValid(req.params.room_id);
+  if (!valid) {
+    return res.json({});
+  }
+  RoomModel.findById(req.params.room_id).then(function (room) {
+    return res.json(room);
+  });
+});
+
+//block room
+roomRouter.route("/block-room/:room_id").put(verifyJwt, async (req, res) => {
+  try {
+    const { blockReason } = req.body;
+    const roomId = req.params.room_id;
+
+    const room = await RoomModel.findById(roomId);
+    if (!room) {
+      return res.status(404).json({ message: "Room not found" });
+    }
+
+    if (room.blocked) {
+      return res.status(400).json({ message: "Room is already blocked" });
+    }
+
+    room.blocked = true;
+    room.blockReason = blockReason;
+
+    await room.save();
+
+    res.json({ message: "Room successfully blocked", room });
+  } catch (error) {
+    res.status(500).json({ message: "Error blocking room" });
+  }
+});
+
+roomRouter.route("/unblock-room/:room_id").put(verifyJwt, async (req, res) => {
+  try {
+    const roomId = req.params.room_id;
+
+    const room = await RoomModel.findById(roomId);
+    if (!room) {
+      return res.status(404).json({ message: "Room not found" });
+    }
+
+    if (!room.blocked) {
+      return res.status(400).json({ message: "Room is not blocked" });
+    }
+
+    room.blocked = false;
+    room.blockReason = ""; // Brisanje razloga blokiranja
+
+    await room.save();
+
+    res.json({ message: "Room successfully unblocked", room });
+  } catch (error) {
+    res.status(500).json({ message: "Error unblocking room" });
+  }
+});
+
 module.exports = roomRouter;

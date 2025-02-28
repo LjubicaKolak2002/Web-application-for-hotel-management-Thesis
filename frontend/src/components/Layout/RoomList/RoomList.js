@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import ConfirmationModal from "../../UI/Modal/Modal";
+import UnblockRoom from "../UnblockRoom/UnblockRoom";
 
 const RoomList = () => {
   const [rooms, setRooms] = useState([]);
@@ -89,6 +90,15 @@ const RoomList = () => {
                     >
                       Delete
                     </button>
+                    {room.blocked ? (
+                      <Link to={`/unblock-room/${room._id}`}>
+                        <button>Unblock room</button>
+                      </Link>
+                    ) : (
+                      <Link to={`/block-room/${room._id}`}>
+                        <button>Block Room</button>
+                      </Link>
+                    )}
                   </>
                 </td>
               )}

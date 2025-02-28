@@ -4,6 +4,7 @@ import Input from "../../UI/Input/Input";
 import SubmitBtn from "../../UI/SubmitBtn/SubmitBtn";
 import ErrorMessage from "../../UI/ErrorMessage/ErrorMessage";
 import Select from "../../UI/Select/Select";
+import Checkbox from "../../UI/Checkbox/Checkbox";
 
 const AddRoom = () => {
   const [formData, setFormData] = useState({
@@ -88,8 +89,7 @@ const AddRoom = () => {
     })
       .then((resp) => resp.json())
       .then(() => {
-        //TODO promijeniti rutu naknadno
-        navigate("/");
+        navigate("/room-list");
       })
       .catch((err) => console.log(err));
   }
@@ -129,21 +129,14 @@ const AddRoom = () => {
               name="category"
             />
 
-            <label className="block mb-2">Features:</label>
-            <div className="mb-3">
-              {features.map((feat) => (
-                <label key={feat._id} className="inline-flex items-center mr-4">
-                  <input
-                    type="checkbox"
-                    value={feat._id}
-                    checked={formData.features.includes(feat._id)}
-                    onChange={handleFeatureChange}
-                    className="mr-2"
-                  />
-                  {feat.name}
-                </label>
-              ))}
-            </div>
+            <Checkbox
+              options={features.map((feat) => ({
+                value: feat._id,
+                label: feat.name,
+              }))}
+              value={formData.features}
+              onChange={handleFeatureChange}
+            />
 
             <Input
               value={formData.price}

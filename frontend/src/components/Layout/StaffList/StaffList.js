@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import ConfirmationModal from "../../UI/Modal/Modal";
+import Select from "../../UI/Select/Select";
 
 const StaffList = () => {
   const [users, setUsers] = useState([]);
+  const [filteredUsers, setFilteredUsers] = useState([]);
+  const [roles, setRoles] = useState([]);
+  const [roleFilter, setRoleFilter] = useState("All");
   const [role, setRole] = useState("");
-  const [showModal, setShowModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+
   const userString = localStorage.getItem("user");
   const token = localStorage.getItem("token");
 
@@ -23,6 +28,16 @@ const StaffList = () => {
     );
     const json = await response.json();
     setUsers(json);
+    setFilteredUsers(json);
+  }
+
+  async function getRoles() {
+    const response = await fetch(
+      "http://localhost:5200/api/staff-user-roles",
+      options
+    );
+    const json = await response.json();
+    setRoles(["All", ...json]); //all za sve
   }
 
   async function deleteUser() {
@@ -38,22 +53,47 @@ const StaffList = () => {
     const result = await response.json();
 
     if (result.deletedStaff) {
-      setUsers(users.filter((user) => user._id !== selectedUser._id));
+      const updatedUsers = users.filter(
+        (user) => user._id !== selectedUser._id
+      );
+      setUsers(updatedUsers);
+      setFilteredUsers(updatedUsers);
     }
     setShowModal(false);
   }
 
   useEffect(() => {
     getUsers();
+    getRoles();
     if (userString) {
       const user = JSON.parse(userString);
       setRole(user.role);
     }
   }, []);
 
+  useEffect(() => {
+    if (roleFilter === "All") {
+      setFilteredUsers(users);
+    } else {
+      setFilteredUsers(users.filter((user) => user.role === roleFilter));
+    }
+  }, [roleFilter, users]);
+
   return (
     <>
       <h1>Staff Users</h1>
+
+      <Select
+        name="roleFilter"
+        value={roleFilter}
+        onChange={(e) => setRoleFilter(e.target.value)}
+        options={roles.map((r) => ({
+          value: r,
+          label: r,
+        }))}
+        placeholder="Filter by Role"
+      />
+
       <table>
         <thead>
           <tr>
@@ -67,7 +107,7 @@ const StaffList = () => {
           </tr>
         </thead>
         <tbody>
-          {users.map((user) => (
+          {filteredUsers.map((user) => (
             <tr key={user._id}>
               <td>{user.name}</td>
               <td>{user.surname}</td>
@@ -77,19 +117,17 @@ const StaffList = () => {
               <td>{user.role}</td>
               {role === "admin" && (
                 <td>
-                  <>
-                    <button>
-                      <Link to={`/edit-staff/${user._id}`}>Edit</Link>
-                    </button>
-                    <button
-                      onClick={() => {
-                        setSelectedUser(user);
-                        setShowModal(true);
-                      }}
-                    >
-                      Delete
-                    </button>
-                  </>
+                  <button>
+                    <Link to={`/edit-staff/${user._id}`}>Edit</Link>
+                  </button>
+                  <button
+                    onClick={() => {
+                      setSelectedUser(user);
+                      setShowModal(true);
+                    }}
+                  >
+                    Delete
+                  </button>
                 </td>
               )}
             </tr>
