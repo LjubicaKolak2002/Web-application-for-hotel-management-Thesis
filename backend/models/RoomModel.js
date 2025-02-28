@@ -10,6 +10,8 @@ const roomModel = new mongoose.Schema({
   },
   features: [{ type: mongoose.Schema.Types.ObjectId, ref: "RoomFeature" }],
   price: { type: mongoose.Types.Decimal128 },
+  blocked: { type: Boolean, default: false },
+  blockReason: { type: String, default: "" },
 });
 
 module.exports = mongoose.model("Room", roomModel);
