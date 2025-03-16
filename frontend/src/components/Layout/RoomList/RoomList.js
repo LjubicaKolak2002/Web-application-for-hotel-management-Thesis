@@ -79,9 +79,9 @@ const RoomList = () => {
               {role === "admin" && (
                 <td>
                   <>
-                    {/* <button>
-                      <Link to={`/edit-staff/${user._id}`}>Edit</Link>
-                    </button> */}
+                    <button>
+                      <Link to={`/edit-room/${room._id}`}>Edit</Link>
+                    </button>
                     <button
                       onClick={() => {
                         setSelectedRoom(room);

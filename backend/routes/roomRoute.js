@@ -106,6 +106,29 @@ roomRouter.route("/add-newRoom").post(async (req, res) => {
   }
 });
 
+//edit root
+roomRouter.route("/edit-room/:room_id").put(verifyJwt, (req, res) => {
+  try {
+    RoomModel.findOneAndUpdate({ _id: req.params.room_id }, req.body, {
+      new: true,
+    })
+      .then((updatedRoom) => {
+        if (!updatedRoom) {
+          return res.json({ error: "Can't find this room" });
+        }
+        return res.json(updatedRoom);
+      })
+      .catch((error) => {
+        return res.json({
+          error: "Can't update this room",
+          details: error.message,
+        });
+      });
+  } catch (error) {
+    return res.json({ error: "Unexpected error occurred" });
+  }
+});
+
 //all rooms
 roomRouter.route("/room-list").get(async (req, res) => {
   try {
