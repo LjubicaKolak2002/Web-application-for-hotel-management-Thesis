@@ -16,6 +16,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import BlockRoom from "./components/Layout/BlockRoom/BlockRoom.js";
 import UnblockRoom from "./components/Layout/UnblockRoom/UnblockRoom.js";
 import EditRoom from "./components/Layout/EditRoom/EditRoom.js";
+import AddEvent from "./components/Layout/AddEvent/AddEvent.js";
+import EventList from "./components/Layout/EventList/EventList.js";
 
 function App() {
   return (
@@ -41,6 +43,9 @@ function App() {
             <Route path="/block-room/:room_id" element={<BlockRoom />} />
             <Route path="/unblock-room/:room_id" element={<UnblockRoom />} />
             <Route path="/edit-room/:room_id" element={<EditRoom />} />
+
+            <Route path="/add-event" element={<AddEvent />} />
+            <Route path="/events-list" element={<EventList />} />
           </Routes>
         </Router>
       </header>
