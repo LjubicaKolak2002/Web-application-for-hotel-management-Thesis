@@ -18,6 +18,7 @@ import UnblockRoom from "./components/Layout/UnblockRoom/UnblockRoom.js";
 import EditRoom from "./components/Layout/EditRoom/EditRoom.js";
 import AddEvent from "./components/Layout/AddEvent/AddEvent.js";
 import EventList from "./components/Layout/EventList/EventList.js";
+import EventDetails from "./components/Layout/EventDetails/EventDetails.js";
 
 function App() {
   return (
@@ -46,6 +47,7 @@ function App() {
 
             <Route path="/add-event" element={<AddEvent />} />
             <Route path="/events-list" element={<EventList />} />
+            <Route path="/events/:event_id" element={<EventDetails />} />
           </Routes>
         </Router>
       </header>

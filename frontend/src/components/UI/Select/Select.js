@@ -10,7 +10,7 @@ const Select = (props) => {
       required
       className="select"
     >
-      <option value="">{props.placeholder || "Select an option"}</option>
+      {/* <option value="">{props.placeholder || "Select an option"}</option> */}
       {props.options.map((option) => (
         <option key={option.value} value={option.value}>
           {option.label}

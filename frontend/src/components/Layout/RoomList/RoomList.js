@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import ConfirmationModal from "../../UI/Modal/Modal";
-import UnblockRoom from "../UnblockRoom/UnblockRoom";
 
 const RoomList = () => {
   const [rooms, setRooms] = useState([]);

@@ -55,6 +55,13 @@ const HomePageTest = () => {
               <p>
                 <Link to="/room-list">Room list</Link>
               </p>
+              <h2>Events</h2>
+              <p>
+                <Link to="/add-event">Add new event</Link>
+              </p>
+              <p>
+                <Link to="/events-list">Events list</Link>
+              </p>
             </>
           )}
         </>
