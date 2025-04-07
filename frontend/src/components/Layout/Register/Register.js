@@ -6,6 +6,7 @@ import SubmitBtn from "../../UI/SubmitBtn/SubmitBtn";
 import ErrorMessage from "../../UI/ErrorMessage/ErrorMessage";
 import { validateField } from "../../../utils/validation";
 import "./Register.css";
+import CountrySelect from "../../UI/CountrySelect/CountrySelect";
 
 const Register = () => {
   let navigate = useNavigate();
@@ -17,6 +18,7 @@ const Register = () => {
     phone: "",
     password: "",
     password2: "",
+    country: "",
   });
 
   const [errors, setErrors] = useState({});
@@ -106,6 +108,12 @@ const Register = () => {
               className={errors.email ? "error-input" : ""}
             />
             <ErrorMessage message={errors.email} />
+
+            <CountrySelect
+              onSelect={(country) =>
+                setFormData((prev) => ({ ...prev, country }))
+              }
+            />
 
             <Input
               value={formData.phone}

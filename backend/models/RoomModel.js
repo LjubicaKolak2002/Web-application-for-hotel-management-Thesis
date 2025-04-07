@@ -8,9 +8,20 @@ const roomModel = new mongoose.Schema({
     ref: "RoomCategory",
     required: true,
   },
+  type: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "RoomType",
+    required: true,
+  },
   features: [{ type: mongoose.Schema.Types.ObjectId, ref: "RoomFeature" }],
-  price: { type: mongoose.Types.Decimal128 },
-  blocked: { type: Boolean, default: false },
+  price: { type: mongoose.Types.Decimal128, required: true },
+  status: {
+    type: String,
+    enum: ["free", "occupied", "reserved", "clean", "dirty", "blocked"],
+    default: "free",
+  },
+
+  //blocked: { type: Boolean, default: false },
   blockReason: { type: String, default: "" },
 });
 

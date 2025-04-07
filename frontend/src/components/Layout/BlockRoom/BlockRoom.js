@@ -26,6 +26,12 @@ const BlockRoom = () => {
     e.preventDefault();
     setError("");
 
+    // Provjeriti je li reason popunjen
+    if (!blockReason) {
+      setError("Block reason is required.");
+      return;
+    }
+
     fetch(`http://localhost:5200/api/block-room/${params.room_id}`, {
       method: "PUT",
       body: JSON.stringify({ blockReason }),
@@ -34,7 +40,7 @@ const BlockRoom = () => {
       .then((response) => response.json())
       .then((data) => {
         if (data) {
-          navigate("/room-list");
+          navigate("/room-list"); // Preusmjeri na listu soba nakon blokiranja
         } else {
           setError("Error blocking room");
         }

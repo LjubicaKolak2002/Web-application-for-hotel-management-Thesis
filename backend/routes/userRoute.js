@@ -23,6 +23,7 @@ userRouter.route("/register").post((req, res) => {
           password: hash,
           phone: req.body.phone,
           role: req.body.role,
+          country: req.body.country,
         });
         user.save();
         //console.log(hash);

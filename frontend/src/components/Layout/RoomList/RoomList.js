@@ -60,7 +60,9 @@ const RoomList = () => {
             <th>Number</th>
             <th>Capacity</th>
             <th>Category</th>
+            <th>Type</th>
             <th>Features</th>
+            <th>Status</th>
             <th>Price</th>
             {role === "admin" && <th>Actions</th>}
           </tr>
@@ -71,7 +73,9 @@ const RoomList = () => {
               <td>{room.number}</td>
               <td>{room.capacity}</td>
               <td>{room.category.name}</td>
+              <td>{room.type?.name}</td>
               <td>{room.features.map((f) => f.name).join(", ")}</td>
+              <td>{room.status}</td>
               <td>{room.price} €</td>
 
               {/*TODO  admina editiranje*/}
@@ -89,7 +93,7 @@ const RoomList = () => {
                     >
                       Delete
                     </button>
-                    {room.blocked ? (
+                    {room.status === "blocked" ? (
                       <Link to={`/unblock-room/${room._id}`}>
                         <button>Unblock room</button>
                       </Link>

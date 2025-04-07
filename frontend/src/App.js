@@ -19,6 +19,7 @@ import EditRoom from "./components/Layout/EditRoom/EditRoom.js";
 import AddEvent from "./components/Layout/AddEvent/AddEvent.js";
 import EventList from "./components/Layout/EventList/EventList.js";
 import EventDetails from "./components/Layout/EventDetails/EventDetails.js";
+import AddRoomType from "./components/Layout/AddRoomType/AddRoomType.js";
 
 function App() {
   return (
@@ -39,6 +40,7 @@ function App() {
               element={<RoomCategoriesList />}
             />
             <Route path="/add-room-feature" element={<AddRoomFeature />} />
+            <Route path="/add-room-type" element={<AddRoomType />} />
             <Route path="/add-room" element={<AddRoom />} />
             <Route path="/room-list" element={<RoomList />} />
             <Route path="/block-room/:room_id" element={<BlockRoom />} />

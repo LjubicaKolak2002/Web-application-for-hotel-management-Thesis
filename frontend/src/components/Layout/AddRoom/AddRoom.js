@@ -11,11 +11,13 @@ const AddRoom = () => {
     number: "",
     capacity: "",
     category: "",
+    type: "",
     features: [],
     price: "",
   });
 
   const [categories, setCategories] = useState([]);
+  const [types, setTypes] = useState([]);
   const [features, setFeatures] = useState([]);
   const [error, setError] = useState("");
 
@@ -39,6 +41,15 @@ const AddRoom = () => {
     );
     const categoriesData = await response.json();
     setCategories(categoriesData);
+  }
+
+  async function getTypes() {
+    const response = await fetch(
+      "http://localhost:5200/api/room-types-list",
+      options
+    );
+    const typesDate = await response.json();
+    setTypes(typesDate);
   }
 
   async function getFeatures() {
@@ -73,6 +84,7 @@ const AddRoom = () => {
       !formData.number ||
       !formData.capacity ||
       !formData.category ||
+      !formData.type ||
       !formData.price
     ) {
       setError("All fields are required!");
@@ -96,6 +108,7 @@ const AddRoom = () => {
 
   useEffect(() => {
     getCategories();
+    getTypes();
     getFeatures();
   }, []);
 
@@ -127,6 +140,16 @@ const AddRoom = () => {
                 label: cat.name,
               }))}
               name="category"
+            />
+
+            <Select
+              value={formData.type}
+              onChange={handleChange}
+              options={types.map((type) => ({
+                value: type._id,
+                label: type.name,
+              }))}
+              name="type"
             />
 
             <Checkbox

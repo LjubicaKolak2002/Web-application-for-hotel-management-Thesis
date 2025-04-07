@@ -42,6 +42,9 @@ const HomePageTest = () => {
                 <Link to="/add-room-category">Add room category</Link>
               </p>
               <p>
+                <Link to="/add-room-type">Add room type</Link>
+              </p>
+              <p>
                 <Link to="/add-room-feature">Add room feature</Link>
               </p>
               <p>

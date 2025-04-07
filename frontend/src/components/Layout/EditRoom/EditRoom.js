@@ -11,14 +11,16 @@ const EditRoom = () => {
     number: "",
     capacity: "",
     category: "",
+    type: "",
     features: [],
     price: "",
-    blocked: false,
+    status: "free",
     blockReason: "",
   });
 
   const [categories, setCategories] = useState([]);
   const [features, setFeatures] = useState([]);
+  const [types, setTypes] = useState([]);
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const params = useParams();
@@ -48,6 +50,20 @@ const EditRoom = () => {
     }
     const categoriesData = await response.json();
     setCategories(categoriesData);
+  }
+
+  async function getTypes() {
+    const response = await fetch(
+      "http://localhost:5200/api/room-types-list",
+      options
+    );
+
+    if (!response.ok) {
+      setError("Error while fetching categories");
+      return;
+    }
+    const typesData = await response.json();
+    setTypes(typesData);
   }
 
   async function getFeatures() {
@@ -82,13 +98,14 @@ const EditRoom = () => {
       number: roomResult.number || "",
       capacity: roomResult.capacity || "",
       category: roomResult.category || "",
+      type: roomResult.type || "",
       features: Array.isArray(roomResult.features)
         ? roomResult.features.map((feat) => String(feat)) //tip string zbog faze -> FK
         : [],
       price: roomResult.price?.$numberDecimal
         ? parseFloat(roomResult.price.$numberDecimal)
         : parseFloat(roomResult.price) || 0,
-      blocked: roomResult.blocked ?? false,
+      status: roomResult.status || "free",
       blockReason: roomResult.blockReason || "",
     });
   }
@@ -96,17 +113,26 @@ const EditRoom = () => {
   function handleChange(e) {
     const { name, value, type, checked } = e.target;
 
-    //promijeni samo bool vrijednost
-    if (type === "checkbox") {
+    //ako status nije blokiran brisi razlog
+    if (name === "status" && value !== "blocked") {
       setFormData((prev) => ({
         ...prev,
-        [name]: checked,
+        status: value,
+        blockReason: "",
       }));
     } else {
-      setFormData((prev) => ({
-        ...prev,
-        [name]: value,
-      }));
+      // ostale podatke samo promijeni
+      if (type === "checkbox") {
+        setFormData((prev) => ({
+          ...prev,
+          [name]: checked,
+        }));
+      } else {
+        setFormData((prev) => ({
+          ...prev,
+          [name]: value,
+        }));
+      }
     }
   }
 
@@ -130,14 +156,15 @@ const EditRoom = () => {
       !formData.number ||
       !formData.capacity ||
       !formData.category ||
+      !formData.type ||
       !formData.price
     ) {
       setError("All fields are required.");
       return;
     }
 
-    if (formData.blocked && !formData.blockReason) {
-      setError("Block reason is required when blocked is true.");
+    if (formData.status === "blocked" && !formData.blockReason) {
+      setError("Block reason is required when room is blocked.");
       return;
     }
 
@@ -170,6 +197,7 @@ const EditRoom = () => {
   useEffect(() => {
     getRoom();
     getCategories();
+    getTypes();
     getFeatures();
   }, []);
 
@@ -225,6 +253,54 @@ const EditRoom = () => {
           message={error && !formData.category ? "Category is required" : ""}
         />
         <br />
+        <br />
+
+        <Select
+          name="type"
+          value={formData.type}
+          onChange={handleChange}
+          options={types.map((type) => ({
+            value: type._id,
+            label: type.name,
+          }))}
+          placeholder="Select type"
+        />
+        <ErrorMessage
+          message={error && !formData.type ? "Type is required" : ""}
+        />
+
+        <Select
+          name="status"
+          value={formData.status}
+          onChange={handleChange}
+          options={[
+            { value: "free", label: "Free" },
+            { value: "occupied", label: "Occupied" },
+            { value: "reserved", label: "Reserved" },
+            { value: "clean", label: "Clean" },
+            { value: "dirty", label: "Dirty" },
+            { value: "blocked", label: "Blocked" },
+          ]}
+        />
+        <br />
+        <br />
+        {formData.status === "blocked" && (
+          <>
+            <Input
+              value={formData.blockReason}
+              onChange={handleChange}
+              placeholder="Block Reason"
+              name="blockReason"
+            />
+            <ErrorMessage
+              message={
+                error && !formData.blockReason
+                  ? "Block reason is required when room is blocked"
+                  : ""
+              }
+            />
+          </>
+        )}
 
         <Input
           type="number"
@@ -237,33 +313,6 @@ const EditRoom = () => {
           message={error && !formData.price ? "Price is required" : ""}
         />
 
-        <div>
-          <label>
-            <input
-              type="checkbox"
-              checked={formData.blocked}
-              onChange={handleChange}
-              name="blocked"
-            />
-            Blocked
-          </label>
-        </div>
-
-        {formData.blocked && (
-          <>
-            <Input
-              value={formData.blockReason}
-              onChange={handleChange}
-              placeholder="Block Reason"
-              name="blockReason"
-            />
-            <ErrorMessage
-              message={
-                error && !formData.blockReason ? "Block reason is required" : ""
-              }
-            />
-          </>
-        )}
         <SubmitBtn label="Save" />
       </form>
     </div>
