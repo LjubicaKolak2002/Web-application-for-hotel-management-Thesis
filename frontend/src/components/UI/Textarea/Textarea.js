@@ -1,4 +1,4 @@
-import "./Textarea.css";
+import "./Textarea.scss";
 
 const Textarea = (props) => {
   return (

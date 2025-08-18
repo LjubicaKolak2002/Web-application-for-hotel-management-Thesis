@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 import Input from "../../UI/Input/Input";
 import SubmitBtn from "../../UI/SubmitBtn/SubmitBtn";
 import ErrorMessage from "../../UI/ErrorMessage/ErrorMessage";
-import "./AddRoomFeature.css";
+import MainLayout from "../MainLayout/MainLayout";
+import "./AddRoomFeature.scss";
 
 const AddRoomFeature = () => {
   const [name, setName] = useState("");
@@ -45,26 +46,31 @@ const AddRoomFeature = () => {
     })
       .then((resp) => resp.json())
       .then(() => {
-        // TODO - kasnije promijeniti rutu
-        navigate("/");
+        // TO DO - kasnije promijeniti rutu
+        navigate("/room-list");
       })
       .catch((err) => console.log(err));
   }
 
   return (
-    <>
-      <form onSubmit={addFeature}>
-        <h2>Add Room Feature</h2>
-        <Input
-          value={name}
-          onChange={onChangeName}
-          placeholder="Feature name"
-          name="name"
-        />
-        {error && <ErrorMessage>{error}</ErrorMessage>}
-        <SubmitBtn label="Add feature">Add Feature</SubmitBtn>
-      </form>
-    </>
+    <div className="add-room-feature-main-container">
+      <MainLayout>
+        <div className="add-room-feature">
+          <header className="add-room-feature-header">Add room feature</header>
+
+          <form onSubmit={addFeature} className="add-room-feature-form">
+            <Input
+              value={name}
+              onChange={onChangeName}
+              placeholder="Feature name"
+              name="name"
+            />
+            {error && <ErrorMessage>{error}</ErrorMessage>}
+            <SubmitBtn label="Add feature">Add Feature</SubmitBtn>
+          </form>
+        </div>
+      </MainLayout>
+    </div>
   );
 };
 

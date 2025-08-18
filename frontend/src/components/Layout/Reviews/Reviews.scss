@@ -1,0 +1,129 @@
+.reviewsContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #f4f6f8;
+  padding: 3rem 1rem;
+  min-height: 100vh;
+  font-family: "Roboto", sans-serif;
+  color: #333;
+
+  &.admin-reviewsContainer {
+    padding-left: 220px;
+
+    h2 {
+      margin-top: 100px;
+    }
+  }
+
+  h2 {
+    font-size: 2rem;
+    color: #4c445d;
+    margin-top: 130px;
+    margin-bottom: 30px;
+  }
+
+  .no-data {
+    text-align: center;
+    color: #666;
+    font-style: italic;
+    font-size: 1rem;
+  }
+
+  .slider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .arrow {
+    background: none;
+    border: none;
+    color: #5c5470;
+    cursor: pointer;
+    padding: 0.5rem;
+    transition: color 0.2s;
+
+    &:hover {
+      color: #55369a;
+    }
+  }
+
+  .reviewCard {
+    display: flex;
+    width: 800px;
+    flex-direction: column;
+    gap: 1rem;
+    background: #fafafa;
+    border: 1px solid rgba(92, 84, 112, 0.1);
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+  }
+
+  .reviewHeader {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 0.75rem;
+
+    .flag {
+      border-radius: 2px;
+    }
+    .reviewerInfo {
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+
+      .reviewerName {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #333;
+      }
+      .reviewerEmail {
+        font-size: 0.9rem;
+        color: #666;
+      }
+    }
+    .reviewDate {
+      font-size: 0.85rem;
+      color: #666;
+    }
+  }
+
+  .ratingWrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    .ratingValue {
+      font-size: 0.95rem;
+      color: #5c5470;
+      font-weight: 500;
+    }
+  }
+
+  .comment {
+    font-size: 1rem;
+    color: #444;
+    line-height: 1.6;
+  }
+
+  .addReview {
+    margin-top: 1rem;
+    a {
+      color: #5c5470;
+      font-size: 1.1rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: opacity 0.2s ease;
+
+      &:hover {
+        opacity: 0.7;
+      }
+    }
+  }
+}

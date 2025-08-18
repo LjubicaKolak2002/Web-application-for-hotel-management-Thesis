@@ -1,36 +1,40 @@
 import React, { useEffect, useState } from "react";
-import Select from "react-select";
+import Select, { components } from "react-select";
 
-const customSingleValue = ({ data }) => (
-  <div style={{ display: "flex", alignItems: "center" }}>
-    <img
-      src={`https://flagcdn.com/24x18/${data.code.toLowerCase()}.png`}
-      alt={data.label}
-    />
-    {data.label}
-  </div>
-);
-
-const customOption = (props) => {
-  const { data, innerRef, innerProps } = props;
+const SingleValue = (props) => {
+  const { data } = props;
   return (
-    <div
-      ref={innerRef}
-      {...innerProps}
-      style={{ display: "flex", alignItems: "center", padding: 6 }}
-    >
-      <img
-        src={`https://flagcdn.com/24x18/${data.code.toLowerCase()}.png`}
-        alt={data.label}
-      />
-      {data.label}
-    </div>
+    <components.SingleValue {...props}>
+      <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+        <img
+          src={`https://flagcdn.com/24x18/${data.code.toLowerCase()}.png`}
+          alt={data.label}
+        />
+        {data.label}
+      </div>
+    </components.SingleValue>
+  );
+};
+
+const Option = (props) => {
+  const { data } = props;
+  return (
+    <components.Option {...props}>
+      <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+        <img
+          src={`https://flagcdn.com/24x18/${data.code.toLowerCase()}.png`}
+          alt={data.label}
+        />
+        {data.label}
+      </div>
+    </components.Option>
   );
 };
 
 const CountrySelect = ({ onSelect }) => {
   const [countries, setCountries] = useState([]);
 
+  //dohvat i cache
   useEffect(() => {
     const cached = localStorage.getItem("countries");
     if (cached) {
@@ -57,33 +61,24 @@ const CountrySelect = ({ onSelect }) => {
   }, []);
 
   const customStyles = {
-    control: (provided) => ({
-      ...provided,
-      width: 200, //fiksna sirina za cijelu komponentu
+    control: (base) => ({
+      ...base,
+      width: 360,
+      minHeight: 50,
+      alignItems: "center",
     }),
-    input: (provided) => ({
-      ...provided,
-      width: 150, //fiksna sirina za input
-    }),
-    menu: (provided) => ({
-      ...provided,
-      width: 200, //fiksna sirina za padajuci izbornik
-    }),
+    menu: (base) => ({ ...base, width: 360 }),
+    placeholder: (base) => ({ ...base, paddingLeft: 10 }),
   };
 
   return (
-    <div>
-      <label>Country</label>
-      <Select
-        options={countries}
-        onChange={(selected) =>
-          onSelect({ name: selected.label, code: selected.code })
-        }
-        components={{ SingleValue: customSingleValue, Option: customOption }}
-        placeholder="Select country..."
-        styles={customStyles}
-      />
-    </div>
+    <Select
+      options={countries}
+      onChange={(sel) => onSelect({ name: sel.label, code: sel.code })}
+      components={{ SingleValue, Option }}
+      placeholder="Select country..."
+      styles={customStyles}
+    />
   );
 };
 

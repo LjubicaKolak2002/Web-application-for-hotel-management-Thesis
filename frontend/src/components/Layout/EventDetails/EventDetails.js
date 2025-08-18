@@ -1,95 +1,8 @@
-/* import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import "./EventList.css";
-
-const EventList = () => {
-  const [events, setEvents] = useState([]);
-  const [role, setRole] = useState("");
-  const token = localStorage.getItem("token");
-  const userString = localStorage.getItem("user");
-
-  if (!token) {
-    window.location.href = "/login";
-  }
-  const options = { headers: { Authorization: "Bearer " + token } };
-
-  async function getEvents() {
-    const response = await fetch(
-      "http://localhost:5200/api/events-list",
-      options
-    );
-    const json = await response.json();
-    setEvents(json);
-  }
-
-  useEffect(() => {
-    getEvents();
-    if (userString) {
-      const user = JSON.parse(userString);
-      setRole(user.role);
-    }
-  }, []);
-
-  return (
-    <div className="events-container">
-      <h1 className="title">Upcoming Events</h1>
-      {events.length === 0 ? (
-        <p className="no-events">No events available.</p>
-      ) : (
-        <div className="event-grid">
-          {events.map((event) => (
-            <div key={event._id} className="event-card">
-              {event.image && (
-                <div className="event-image">
-                  <img
-                    src={event.image}
-                    alt={event.name}
-                    style={{
-                      width: "150px",
-                      height: "150px",
-                      objectFit: "cover",
-                    }}
-                  />
-                </div>
-              )}
-
-              <div className="event-info">
-                <h2>{event.name}</h2>
-                <p className="event-meta">
-                  <strong>Organizer:</strong> {event.organizer}
-                </p>
-                <p className="event-description">
-                  {event.description || "No description provided"}
-                </p>
-                <p className="event-meta">
-                  <strong>Date & Time:</strong>{" "}
-                  {new Date(event.datetime).toLocaleString()}
-                </p>
-                <p className="event-meta">
-                  <strong>Location:</strong> {event.location}
-                </p>
-                <p className="event-meta">
-                  <strong>Capacity:</strong> {event.capacity}
-                </p>
-                <p className="event-meta">
-                  <strong>Available Spots:</strong>{" "}
-                  {event.availableSpots || "N/A"}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-};
-
-export default EventList;
- */
-
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-
+import { useParams, Link } from "react-router-dom";
+import { formatDateTime } from "../../../utils/helper";
+import Button from "../../UI/Button/Button";
+import "./EventDetails.scss";
 const EventDetails = () => {
   const [data, setData] = useState({
     name: "",
@@ -101,69 +14,142 @@ const EventDetails = () => {
     capacity: "",
     availableSpots: "",
   });
+  const [role, setRole] = useState("");
+  const [isRegistered, setIsRegistered] = useState(false);
   const params = useParams();
   const token = localStorage.getItem("token");
 
-  if (!token) {
-    window.location.href = "/login";
-  }
-
-  const options = {
-    headers: {
-      Authorization: "Bearer " + token,
-    },
-  };
+  const userString = localStorage.getItem("user");
+  const user = JSON.parse(userString);
+  const userId = user?.id;
 
   async function getEvent() {
     const response = await fetch(
-      `http://localhost:5200/api/events/${params.event_id}`,
-      options
+      `http://localhost:5200/api/events/${params.event_id}`
     );
+    console.log("response:", response);
     const eventData = await response.json();
     setData(eventData);
   }
 
+  async function eventRegistration() {
+    try {
+      const response = await fetch(
+        `http://localhost:5200/api/event-register/${params.event_id}`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: "Bearer " + token,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ user_id: userId }),
+        }
+      );
+
+      const result = await response.json();
+
+      if (response.ok) {
+        setIsRegistered(true);
+        setData((prevData) => ({
+          ...prevData,
+          availableSpots: Math.max(prevData.availableSpots - 1, 0),
+        }));
+      } else {
+        alert(result.message || "Failed to register");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  }
+
+  async function checkRegistration() {
+    const response = await fetch(
+      `http://localhost:5200/api/check-registration/${params.event_id}/${userId}`,
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    );
+    const result = await response.json();
+    setIsRegistered(result.registered);
+  }
+
   useEffect(() => {
     getEvent();
+    checkRegistration();
+    if (userString) {
+      const user = JSON.parse(userString);
+      setRole(user.role);
+    }
   }, []);
 
   return (
-    <div className="event-container">
-      <h1 className="title">{data.name}</h1>
-      {data.image && (
-        <div className="event-image">
-          <img
-            src={data.image}
-            alt={data.name}
-            style={{
-              width: "150px",
-              height: "150px",
-              objectFit: "cover",
-            }}
-          />
-        </div>
-      )}
+    <div
+      className={`event-container ${
+        role === "admin" ? "admin-event-container" : ""
+      }`}
+    >
+      <div
+        className={`event-left ${role === "admin" ? "admin-event-left" : ""}`}
+      >
+        <h1 className="event-title">{data.name}</h1>
+        {data.image && (
+          <img src={data.image} alt={data.name} className="event-image" />
+        )}
+      </div>
 
-      <div className="event-info">
+      <div
+        className={`event-right ${role === "admin" ? "admin-event-right" : ""}`}
+      >
+        <p className="event-description">{data.description}</p>
         <p className="event-meta">
           <strong>Organizer:</strong> {data.organizer}
         </p>
-        <p className="event-description">
-          {DataTransferItemList.description || "No description provided"}
+
+        <p className="event-meta">
+          <i className="fa-solid fa-clock"></i> {formatDateTime(data.datetime)}
         </p>
         <p className="event-meta">
-          <strong>Date & Time:</strong>{" "}
-          {new Date(data.datetime).toLocaleString()}
+          <i className="fa-solid fa-location-dot"></i> {data.location}
         </p>
         <p className="event-meta">
-          <strong>Location:</strong> {data.location}
+          <i className="fa-solid fa-user-group"></i> {data.capacity}
         </p>
         <p className="event-meta">
-          <strong>Capacity:</strong> {data.capacity}
+          <strong>Available Spots:</strong> {data.availableSpots || "0"}
         </p>
-        <p className="event-meta">
-          <strong>Available Spots:</strong> {data.availableSpots || "N/A"}
-        </p>
+
+        {isRegistered ? (
+          <p className="already-registered">
+            You are registered for this event. <br />
+            You received a confirmation to your email address with a barcode for
+            entry.
+          </p>
+        ) : user?.role === "user" ? (
+          data.availableSpots > 0 ? (
+            <Button
+              onClick={eventRegistration}
+              label="Register"
+              variant="add"
+            />
+          ) : (
+            <p className="event-full"> This event is full.</p>
+          )
+        ) : null}
+
+        {user?.role === "admin" && (
+          <p className="event-applications-link">
+            <Link
+              to={`/users-on-event/${data._id}`}
+              state={{ eventName: data.name }}
+              className="view-apps-link"
+            >
+              {/* <i className="fa-solid fa-list"></i> */}
+              View applications <i className="fa-solid fa-arrow-right"></i>
+            </Link>
+          </p>
+        )}
       </div>
     </div>
   );

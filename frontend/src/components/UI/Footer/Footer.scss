@@ -1,0 +1,53 @@
+.footer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background-color: #e7e5ed;
+  min-height: 100px;
+  padding: 24px 16px;
+}
+
+.footer-top {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  & span {
+    font-family: "Roboto", sans-serif;
+    margin-right: 5px;
+    font-weight: 100;
+    font-size: 14px;
+  }
+
+  @media screen and (min-width: 768px) {
+    display: inline-flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 16px;
+  }
+}
+
+.footer-copy-rights {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  justify-content: space-between;
+}
+
+.footer-right {
+  flex-shrink: 0;
+  display: inline-flex;
+  gap: 8px;
+}
+
+.footer-copy-rights-text {
+  color: #545b67;
+}
+
+.fa-brands,
+.fa-phone,
+.fa-envelope {
+  color: #352f44;
+}

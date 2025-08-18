@@ -4,6 +4,8 @@ import Input from "../../UI/Input/Input";
 import SubmitBtn from "../../UI/SubmitBtn/SubmitBtn";
 import ErrorMessage from "../../UI/ErrorMessage/ErrorMessage";
 import Select from "../../UI/Select/Select";
+import "./EditStaff.scss";
+import MainLayout from "../MainLayout/MainLayout";
 
 const EditStaff = () => {
   const [formData, setFormData] = useState({
@@ -94,61 +96,71 @@ const EditStaff = () => {
   }, []);
 
   return (
-    <div className="edit-staff-container">
-      <h3>Edit Staff</h3>
-      <form onSubmit={updateData}>
-        <Input
-          value={formData.name}
-          onChange={handleChange}
-          placeholder="Name"
-          name="name"
-        />
-        <ErrorMessage message={error && !formData.name ? error : ""} />
+    <div className="edit-staff-main-container">
+      <MainLayout offsetTop={40}>
+        <div className="edit-staff">
+          <header className="edit-staff-header">Edit staff</header>
 
-        <Input
-          value={formData.surname}
-          onChange={handleChange}
-          placeholder="Surname"
-          name="surname"
-        />
-        <ErrorMessage message={error && !formData.surname ? error : ""} />
+          <form onSubmit={updateData} className="edit-staff-form">
+            <Input
+              value={formData.name}
+              onChange={handleChange}
+              placeholder="Name"
+              name="name"
+              iconClass="fa-solid fa-user"
+            />
+            <ErrorMessage message={error && !formData.name ? error : ""} />
 
-        <Input
-          value={formData.username}
-          onChange={handleChange}
-          placeholder="Username"
-          name="username"
-        />
-        <ErrorMessage message={error && !formData.username ? error : ""} />
+            <Input
+              value={formData.surname}
+              onChange={handleChange}
+              placeholder="Surname"
+              name="surname"
+              iconClass="fa-solid fa-user"
+            />
+            <ErrorMessage message={error && !formData.surname ? error : ""} />
 
-        <Input
-          value={formData.email}
-          onChange={handleChange}
-          placeholder="Email"
-          name="email"
-        />
-        <ErrorMessage message={error && !formData.email ? error : ""} />
+            <Input
+              value={formData.username}
+              onChange={handleChange}
+              placeholder="Username"
+              name="username"
+              iconClass="fa-solid fa-user"
+            />
+            <ErrorMessage message={error && !formData.username ? error : ""} />
 
-        <Input
-          value={formData.phone}
-          onChange={handleChange}
-          placeholder="Phone"
-          name="phone"
-        />
-        <ErrorMessage message={error && !formData.phone ? error : ""} />
+            <Input
+              value={formData.email}
+              onChange={handleChange}
+              placeholder="Email"
+              name="email"
+              iconClass="fa-solid fa-envelope"
+            />
+            <ErrorMessage message={error && !formData.email ? error : ""} />
 
-        <Select
-          name="role"
-          value={formData.role}
-          onChange={handleChange}
-          options={roles.map((role) => ({ value: role, label: role }))}
-          placeholder="Select Role"
-        />
+            <Input
+              value={formData.phone}
+              onChange={handleChange}
+              placeholder="Phone"
+              name="phone"
+              iconClass="fa-solid fa-phone"
+            />
+            <ErrorMessage message={error && !formData.phone ? error : ""} />
 
-        <ErrorMessage message={error && !formData.role ? error : ""} />
+            <Select
+              name="role"
+              value={formData.role}
+              onChange={handleChange}
+              options={roles.map((role) => ({ value: role, label: role }))}
+              placeholder="Select Role"
+            />
 
-        <SubmitBtn label="Save" />
-      </form>
+            <ErrorMessage message={error && !formData.role ? error : ""} />
+
+            <SubmitBtn label="Save" />
+          </form>
+        </div>
+      </MainLayout>
     </div>
   );
 };

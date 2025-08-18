@@ -1,0 +1,32 @@
+.checkoutContainer {
+  width: 450px;
+  margin: 0 auto;
+  padding: 1rem;
+  .paypal-buttons {
+    margin-bottom: 1rem;
+    button {
+      border-radius: 8px !important;
+      box-shadow: none !important;
+      font-size: 1rem !important;
+    }
+  }
+
+  .card-fields-container {
+    background: #fafafa;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+
+    input {
+      border: 1px solid #ccc !important;
+      border-radius: 4px !important;
+      height: 2.5rem !important;
+    }
+
+    .card-error {
+      color: #e74c3c !important;
+      font-size: 0.85rem;
+      margin-top: 0.3rem;
+    }
+  }
+}

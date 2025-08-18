@@ -1,0 +1,25 @@
+.checkbox-group {
+  .checkbox-container {
+    element.style {
+      position: relative;
+      bottom: 25px;
+      display: flex;
+      justify-content: flex-start;
+      gap: 10px;
+    }
+  }
+
+  .checkbox-item {
+    flex: 1 1 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    column-gap: 0.95rem;
+  }
+}
+
+.checkbox-container {
+  display: flex;
+  justify-content: flex-start;
+  gap: 14px;
+}

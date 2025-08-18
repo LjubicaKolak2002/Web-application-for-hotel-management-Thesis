@@ -5,8 +5,9 @@ import PasswordInput from "../../UI/PasswordInput/PasswordInput";
 import SubmitBtn from "../../UI/SubmitBtn/SubmitBtn";
 import ErrorMessage from "../../UI/ErrorMessage/ErrorMessage";
 import { validateField } from "../../../utils/validation";
-import "./Register.css";
+import "./Register.scss";
 import CountrySelect from "../../UI/CountrySelect/CountrySelect";
+import MainLayout from "../MainLayout/MainLayout";
 
 const Register = () => {
   let navigate = useNavigate();
@@ -34,7 +35,7 @@ const Register = () => {
 
     setErrors((prev) => ({
       ...prev,
-      [name]: error, // Ažuriraj grešku
+      [name]: error,
     }));
   }
 
@@ -66,87 +67,100 @@ const Register = () => {
   }
 
   return (
-    <div className="outer">
-      <div className="form">
-        <div className="form-body">
-          <header>Signup</header>
-          <br />
+    <MainLayout isDoubleForm={true}>
+      <div className="register">
+        <header className="register-header">Sign up</header>
 
-          <form onSubmit={handleRegister} className="form">
-            <Input
-              value={formData.name}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              placeholder="Name"
-              name="name"
-            />
-            <ErrorMessage message={errors.name} />
+        <form onSubmit={handleRegister} className="register-form-wrapper">
+          <div className="register-form">
+            <div className="register-column">
+              <h3>Personal data</h3>
+              <Input
+                value={formData.name}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                placeholder="Name"
+                name="name"
+                iconClass="fa-solid fa-user"
+              />
+              <ErrorMessage message={errors.name} />
 
-            <Input
-              value={formData.surname}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              placeholder="Surname"
-              name="surname"
-            />
-            <ErrorMessage message={errors.surname} />
-            <Input
-              value={formData.username}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              placeholder="Username"
-              name="username"
-            />
-            <ErrorMessage message={errors.username} />
+              <Input
+                value={formData.surname}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                placeholder="Surname"
+                name="surname"
+                iconClass="fa-solid fa-user"
+              />
+              <ErrorMessage message={errors.surname} />
 
-            <Input
-              value={formData.email}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              placeholder="Email"
-              name="email"
-              className={errors.email ? "error-input" : ""}
-            />
-            <ErrorMessage message={errors.email} />
+              <Input
+                value={formData.phone}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                placeholder="Phone"
+                name="phone"
+                iconClass="fa-solid fa-phone"
+              />
+              <ErrorMessage message={errors.phone} />
 
-            <CountrySelect
-              onSelect={(country) =>
-                setFormData((prev) => ({ ...prev, country }))
-              }
-            />
+              <CountrySelect
+                onSelect={(country) =>
+                  setFormData((prev) => ({ ...prev, country }))
+                }
+              />
+            </div>
 
-            <Input
-              value={formData.phone}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              placeholder="Phone"
-              name="phone"
-            />
-            <ErrorMessage message={errors.phone} />
+            <div className="register-column">
+              <h3>User data</h3>
+              <Input
+                value={formData.username}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                placeholder="Username"
+                name="username"
+                iconClass="fa-solid fa-user"
+              />
+              <ErrorMessage message={errors.username} />
 
-            <PasswordInput
-              value={formData.password}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              placeholder="Password"
-              name="password"
-            />
-            <ErrorMessage message={errors.password} />
+              <Input
+                value={formData.email}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                placeholder="Email"
+                name="email"
+                className="input"
+                iconClass="fa-solid fa-envelope"
+              />
+              <ErrorMessage message={errors.email} />
 
-            <PasswordInput
-              value={formData.password2}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              placeholder="Repeat password"
-              name="password2"
-            />
-            <ErrorMessage message={errors.password2} />
+              <PasswordInput
+                value={formData.password}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                placeholder="Password"
+                name="password"
+                iconClass="fa-solid fa-lock"
+              />
+              <ErrorMessage message={errors.password} />
 
-            <SubmitBtn label="Register" />
-          </form>
-        </div>
+              <PasswordInput
+                value={formData.password2}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                placeholder="Repeat password"
+                name="password2"
+                iconClass="fa-solid fa-lock"
+              />
+              <ErrorMessage message={errors.password2} />
+            </div>
+          </div>
+
+          <SubmitBtn label="Register" />
+        </form>
       </div>
-    </div>
+    </MainLayout>
   );
 };
 

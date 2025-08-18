@@ -4,6 +4,8 @@ import Input from "../../UI/Input/Input";
 import SubmitBtn from "../../UI/SubmitBtn/SubmitBtn";
 import Textarea from "../../UI/Textarea/Textarea";
 import ErrorMessage from "../../UI/ErrorMessage/ErrorMessage";
+import MainLayout from "../MainLayout/MainLayout";
+import "./AddRoomCategory.scss";
 
 const AddRoomCategory = () => {
   const [formData, setFormData] = useState({
@@ -56,20 +58,19 @@ const AddRoomCategory = () => {
   }
 
   return (
-    <div className="outer">
-      <div className="form">
-        <div className="form-body">
-          <header>Add Room Category</header>
-          <br />
-
-          <form onSubmit={addCategory}>
+    <div className="add-room-category-main-container">
+      <MainLayout>
+        <div className="add-room-category">
+          <header className="add-room-category-header">
+            Add Room Category
+          </header>
+          <form onSubmit={addCategory} className="add-room-category-form">
             <Input
               name="name"
               value={formData.name}
               placeholder="Name"
               onChange={handleChange}
             />
-            <br />
 
             <Textarea
               name="description"
@@ -77,15 +78,11 @@ const AddRoomCategory = () => {
               placeholder="Description"
               onChange={handleChange}
             />
-            <br />
-
-            <br />
-            <SubmitBtn label="Add category" />
-
             <ErrorMessage message={error} />
+            <SubmitBtn label="Add category" />
           </form>
         </div>
-      </div>
+      </MainLayout>
     </div>
   );
 };

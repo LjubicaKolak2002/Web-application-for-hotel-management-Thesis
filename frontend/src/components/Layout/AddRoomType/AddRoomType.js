@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import Input from "../../UI/Input/Input";
 import SubmitBtn from "../../UI/SubmitBtn/SubmitBtn";
 import ErrorMessage from "../../UI/ErrorMessage/ErrorMessage";
+import MainLayout from "../MainLayout/MainLayout";
+import "./AddRoomType.scss";
 
 const AddRoomType = () => {
   const [name, setName] = useState("");
@@ -45,24 +47,29 @@ const AddRoomType = () => {
       .then((resp) => resp.json())
       .then(() => {
         // TODO - kasnije promijeniti rutu na listu tipova
-        navigate("/");
+        navigate("/room-list");
       })
       .catch((err) => console.log(err));
   }
   return (
-    <>
-      <form onSubmit={addType}>
-        <h2>Add Room Type</h2>
-        <Input
-          value={name}
-          onChange={onChangeName}
-          placeholder="Type name"
-          name="name"
-        />
-        {error && <ErrorMessage>{error}</ErrorMessage>}
-        <SubmitBtn label="Add type">Add type</SubmitBtn>
-      </form>
-    </>
+    <div className="add-room-type-main-container">
+      <MainLayout>
+        <div className="add-room-type">
+          <header className="add-room-type-header">Add room type</header>
+
+          <form onSubmit={addType} className="add-room-type-form">
+            <Input
+              value={name}
+              onChange={onChangeName}
+              placeholder="Type name"
+              name="name"
+            />
+            {error && <ErrorMessage>{error}</ErrorMessage>}
+            <SubmitBtn label="Add type">Add type</SubmitBtn>
+          </form>
+        </div>
+      </MainLayout>
+    </div>
   );
 };
 

@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const roomModel = new mongoose.Schema({
   number: { type: String, required: true, unique: true },
   capacity: { type: Number, required: true },
+  image: { type: String },
   category: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "RoomCategory",
@@ -17,9 +18,10 @@ const roomModel = new mongoose.Schema({
   price: { type: mongoose.Types.Decimal128, required: true },
   status: {
     type: String,
-    enum: ["free", "occupied", "reserved", "clean", "dirty", "blocked"],
-    default: "free",
+    enum: ["occupied", "clean", "done", "dirty", "blocked"],
+    default: "clean",
   },
+  note: { type: String },
 
   //blocked: { type: Boolean, default: false },
   blockReason: { type: String, default: "" },

@@ -1,0 +1,109 @@
+.modal {
+  display: flex !important;
+  align-items: flex-end;
+  justify-content: center;
+  font-family: "Roboto", sans-serif;
+
+  .modal-dialog {
+    margin: 0;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+
+    @media (min-width: 768px) {
+      align-self: center;
+      max-width: 400px;
+      border-radius: 32px 32px 0 0;
+    }
+  }
+
+  .modal-content {
+    border-radius: 36px 36px 0 0;
+
+    padding: 0.7rem;
+    background: #fff;
+
+    @media (min-width: 768px) {
+      border-radius: 20px;
+    }
+
+    .modal-header {
+      border-bottom: 1px solid #ccc; //linija ispod headera
+      padding-bottom: 0.7rem;
+
+      .modal-title {
+        font-size: 1.2rem;
+        font-weight: bold;
+        text-align: center;
+        width: 100%;
+      }
+
+      .btn-close {
+        margin: -0.5rem -0.5rem 0 auto;
+      }
+    }
+
+    .modal-body {
+      padding-top: 1rem;
+      margin-bottom: 0.5rem;
+      p {
+        font-size: 0.95rem;
+        color: #555;
+      }
+
+      textarea {
+        width: 100%;
+        border-radius: 8px;
+        border: 1px solid #51486a;
+        padding: 0.75rem;
+        font-size: 0.95rem;
+        resize: none;
+        transition: border-color 0.3s ease;
+      }
+
+      textarea:hover {
+        border-color: #51486a;
+      }
+    }
+
+    .modal-footer {
+      display: flex;
+      justify-content: space-between;
+      border: none;
+      padding-top: 1rem;
+
+      .btn {
+        flex: 1;
+        padding: 0.75rem;
+        border-radius: 8px;
+        font-size: 1rem;
+        position: relative;
+        bottom: 22px;
+
+        &.btn-danger {
+          background: #929695;
+          color: white;
+          margin-right: 0.5rem;
+          border: none;
+        }
+
+        &.btn-success {
+          //background-color: #51486a;
+          background-color: #55369a;
+          color: white;
+
+          &:hover {
+            background-color: #55369a;
+          }
+        }
+      }
+    }
+
+    .text-danger {
+      font-size: 0.85;
+      font-weight: 500px;
+      margin-top: 0.75rem;
+      color: red;
+    }
+  }
+}

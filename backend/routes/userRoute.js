@@ -132,4 +132,27 @@ userRouter.route("/delete-staff/:staff_id").delete(verifyJwt, (req, res) => {
     return res.json({ error: "error while deleting staff user" });
   }
 });
+
+//user by id
+userRouter.route("/user/:user_id").get(verifyJwt, (req, res) => {
+  const valid = mongoose.Types.ObjectId.isValid(req.params.user_id);
+  if (!valid) {
+    return res.json({});
+  }
+  User.findById(req.params.user_id).then(function (user) {
+    return res.json(user);
+  });
+});
+
+//get all maids
+userRouter.route("/maids").get(verifyJwt, async (req, res) => {
+  try {
+    const maids = await User.find({ role: "maid" });
+    res.json(maids);
+  } catch (error) {
+    console.error("Error fetching maids:", error);
+    res.status(500).json({ error: "Error fetching maids" });
+  }
+});
+
 module.exports = userRouter;

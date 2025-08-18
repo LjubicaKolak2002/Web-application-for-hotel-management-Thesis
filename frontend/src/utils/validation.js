@@ -28,3 +28,13 @@ export function validateField(name, value, formData) {
 
   return error;
 }
+
+export const formatDate = (dateString) => {
+  const date = new Date(dateString);
+  return date.toLocaleDateString("en-US", {
+    weekday: "long",
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+  });
+};

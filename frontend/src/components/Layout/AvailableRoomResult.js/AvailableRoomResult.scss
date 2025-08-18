@@ -1,0 +1,246 @@
+.wrapper {
+  display: flex;
+  gap: 6rem;
+  padding: 2rem;
+  margin-top: 3rem;
+  font-family: "Roboto", sans-serif;
+  background-color: #f4f6f8;
+  min-height: 110vh;
+}
+
+.searchBox {
+  background-color: hsl(0deg 0% 100% / 6%);
+  padding: 2rem;
+  border-radius: 8px;
+  min-width: 350px;
+  height: 400px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+  margin-top: 3.3rem;
+
+  h3 {
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+    font-weight: 550;
+    color: rgba(0, 0, 0, 0.868);
+  }
+
+  p {
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+  }
+
+  label {
+    margin-bottom: 0.3rem;
+    color: rgba(0, 0, 0, 0.868);
+  }
+
+  .valueBox {
+    background-color: white;
+    padding: 0.6rem;
+    border-radius: 15px;
+    display: block;
+    width: 280px;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.08);
+    margin-top: 0.7rem;
+  }
+}
+
+.filters {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  margin-top: 5rem;
+  margin-right: 4rem;
+  margin-left: -1rem;
+}
+
+.filters h3 {
+  margin-bottom: 4px;
+}
+
+.filters select,
+.filters input {
+  padding: 0.6rem;
+  width: 120%;
+}
+
+.results {
+  flex: 1;
+
+  .errorText {
+    color: #5c5470;
+    font-size: 1.35rem;
+    font-style: italic;
+    margin-top: 2rem;
+    margin-left: 1rem;
+  }
+
+  h2 {
+    margin-bottom: 0.5rem;
+    margin-top: 3rem;
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-left: 2rem;
+  }
+
+  .roomCard {
+    padding: 2rem;
+    border-radius: 15px;
+    margin-bottom: 2rem;
+    margin-top: 1rem;
+    display: flex;
+    background-color: #ffffff87;
+    gap: 2rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    height: 200px;
+
+    &:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      transform: translateY(-2px);
+      transition: all 0.2s ease;
+    }
+
+    .roomImage {
+      width: 180px;
+      height: 155px;
+      overflow: hidden;
+    }
+
+    .roomImage img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      border-radius: 15px;
+    }
+
+    .roomDetails {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      flex-grow: 1;
+
+      h3 {
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: #333;
+
+        font-family: "Apple Chancery, cursive";
+      }
+
+      p {
+        margin: 0.5rem 0;
+        font-size: 0.9rem;
+        color: #555;
+      }
+
+      .features {
+        font-size: 0.7rem;
+        color: #6643b5;
+        margin-top: 1rem;
+        font-style: italic;
+        display: flex;
+        gap: 1rem;
+      }
+
+      .featureButton {
+        border: 2px solid #6643b5;
+        border-radius: 25px;
+        color: #6643b5;
+        cursor: pointer;
+        padding: 0.4rem 1.4rem;
+        transition: background-color 0.3s ease;
+      }
+    }
+
+    .loginPrompt {
+      color: #55369a;
+      font-style: italic;
+      margin-top: 1rem;
+    }
+
+    .priceAndCapacity {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: flex-end;
+      margin-top: 1rem;
+
+      .price {
+        color: #c49d03;
+        background-color: #fff8e1;
+        padding: 0.2rem 0.5rem;
+        border-radius: 4px;
+        font-size: 1.4rem;
+      }
+
+      .guests {
+        font-size: 0.8rem;
+        font-weight: 500;
+        color: #666;
+      }
+    }
+  }
+}
+
+.booking-button {
+  background-color: #55369a;
+
+  &:hover {
+    background-color: #411d90;
+  }
+}
+
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  background: transparent;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+  height: 4px;
+  background: #ddd;
+  border-radius: 2px;
+}
+
+input[type="range"]::-moz-range-track {
+  height: 4px;
+  background: #ddd;
+  border-radius: 2px;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  background-color: #55369a;
+  margin-top: -6px;
+  cursor: pointer;
+}
+
+input[type="range"]::-moz-range-thumb {
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  background-color: #55369a;
+  cursor: pointer;
+}
+
+.results {
+  .roomCard {
+    .roomDetails {
+      p {
+        &:nth-of-type(1),
+        &:nth-of-type(2) {
+          color: rgba(0, 0, 0, 0.6);
+          font-size: 0.85rem;
+          font-weight: 400;
+          margin-bottom: 0.3rem;
+        }
+      }
+    }
+  }
+}

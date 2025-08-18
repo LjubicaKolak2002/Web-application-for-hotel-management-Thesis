@@ -8,8 +8,10 @@ const RoomModel = require("../models/RoomModel.js");
 const RoomCategoryModel = require("../models/RoomCategoryModel.js");
 const RoomFeaturesModel = require("../models/RoomFeaturesModel.js");
 const RoomTypeModel = require("../models/RoomTypeModel.js");
+const TaskModel = require("../models/TaskModel.js");
 
 const roomRouter = express.Router();
+
 //new room category
 roomRouter.route("/add-roomCategory").post(verifyJwt, (req, res) => {
   try {
@@ -22,7 +24,7 @@ roomRouter.route("/add-roomCategory").post(verifyJwt, (req, res) => {
 });
 
 //categories list
-roomRouter.route("/categories-list").get(verifyJwt, (req, res) => {
+roomRouter.route("/categories-list").get((req, res) => {
   RoomCategory.find()
     .sort({ name: 1 })
     .then(function (categories) {
@@ -33,18 +35,28 @@ roomRouter.route("/categories-list").get(verifyJwt, (req, res) => {
 //delete room category
 roomRouter
   .route("/delete-roomCategory/:category_id")
-  .delete(verifyJwt, (req, res) => {
+  .delete(verifyJwt, async (req, res) => {
     try {
-      RoomCategory.findByIdAndDelete(req.params.category_id).then(function (
-        deletedCategory
-      ) {
-        if (deletedCategory) {
-          return res.json({ deletedCategory: "deleted" });
-        }
-        return res.json({ error: "category not found" });
-      });
+      const categoryId = req.params.category_id;
+
+      const roomsUsingCategory = await RoomModel.find({ category: categoryId });
+
+      if (roomsUsingCategory.length > 0) {
+        return res.status(400).json({
+          error: "Cannot delete category that is used by existing rooms.",
+        });
+      }
+
+      const deletedCategory = await RoomCategory.findByIdAndDelete(categoryId);
+
+      if (deletedCategory) {
+        return res.json({ deletedCategory: "deleted" });
+      }
+
+      return res.status(404).json({ error: "Category not found" });
     } catch (error) {
-      return res.json({ error: "error" });
+      console.error(error);
+      return res.status(500).json({ error: "Internal server error" });
     }
   });
 
@@ -92,6 +104,7 @@ roomRouter.route("/add-newRoom").post(async (req, res) => {
     const {
       number,
       capacity,
+      image,
       category,
       type,
       features,
@@ -126,6 +139,7 @@ roomRouter.route("/add-newRoom").post(async (req, res) => {
     const newRoom = new RoomModel({
       number,
       capacity,
+      image,
       category,
       type,
       features,
@@ -164,10 +178,27 @@ roomRouter.route("/edit-room/:room_id").put(verifyJwt, (req, res) => {
   }
 });
 
-//all rooms
+//room by id
+roomRouter.route("/room/:room_id").get(verifyJwt, (req, res) => {
+  const valid = mongoose.Types.ObjectId.isValid(req.params.room_id);
+  if (!valid) {
+    return res.json({});
+  }
+  RoomModel.findById(req.params.room_id).then(function (room) {
+    return res.json(room);
+  });
+});
+
+//all room list
 roomRouter.route("/room-list").get(async (req, res) => {
   try {
-    const rooms = await RoomModel.find()
+    const search = req.query.search || "";
+
+    const query = search
+      ? { number: { $regex: search, $options: "i" } } // sase-insensitive pretraga
+      : {};
+
+    const rooms = await RoomModel.find(query)
       .sort({ number: 1 })
       .populate("category", "name")
       .populate("type", "name")
@@ -239,6 +270,7 @@ roomRouter.route("/block-room/:room_id").put(verifyJwt, async (req, res) => {
   }
 });
 
+//unblock room
 roomRouter.route("/unblock-room/:room_id").put(verifyJwt, async (req, res) => {
   try {
     const roomId = req.params.room_id;
@@ -252,7 +284,8 @@ roomRouter.route("/unblock-room/:room_id").put(verifyJwt, async (req, res) => {
       return res.status(400).json({ message: "Room is not blocked" });
     }
 
-    room.status = "free";
+    //room.status = "free" ;
+    room.status = "clean";
     room.blockReason = "";
 
     await room.save();
@@ -262,5 +295,135 @@ roomRouter.route("/unblock-room/:room_id").put(verifyJwt, async (req, res) => {
     res.status(500).json({ message: "Error unblocking room" });
   }
 });
+
+//get min and max price
+roomRouter.route("/min-max-price").get(async (req, res) => {
+  try {
+    console.log("Finding min and max price...");
+
+    const minPrice = await RoomModel.findOne()
+      .sort({ price: 1 })
+      .select("price");
+    console.log("min", minPrice);
+    const maxPrice = await RoomModel.findOne()
+      .sort({ price: -1 })
+      .select("price");
+
+    return res.json({ min: minPrice, max: maxPrice });
+  } catch (error) {
+    res.json({ error: error });
+  }
+});
+
+//get room status
+roomRouter.route("/room-statuses").get(verifyJwt, async (req, res) => {
+  try {
+    const status = await RoomModel.distinct("status");
+
+    res.json(status);
+  } catch (error) {
+    res.status(500).json({ error: "Error fetching room status" });
+  }
+});
+module.exports = roomRouter;
+
+//assign room to maid
+roomRouter.route("/assign-room").post(verifyJwt, async (req, res) => {
+  const { maidId, roomId, date, note } = req.body;
+  if (!maidId || !roomId || !date) {
+    return res.status(400).json({ error: "fields are required" });
+  }
+
+  try {
+    const already = await TaskModel.findOne({ room: roomId, date });
+
+    const newTask = await TaskModel.create({
+      maid: maidId,
+      room: roomId,
+      date,
+      note: note || "",
+    });
+
+    return res.json({ message: "Task created", task: newTask });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ error: "Server error" });
+  }
+});
+
+//all assigned rooms
+roomRouter.route("/assigned-rooms").get(verifyJwt, async (req, res) => {
+  const { date } = req.query;
+  if (!date) return res.json({ error: "Date is required" });
+
+  try {
+    const tasks = await TaskModel.find({ date }).populate("room");
+    const assignedRooms = tasks.map((task) => ({
+      maid: task.maid,
+      room: task.room._id.toString(),
+      date: task.date,
+    }));
+    res.json(assignedRooms);
+  } catch (error) {
+    console.error(error);
+    res.json({ error: "error" });
+  }
+});
+
+//maids assigned room
+roomRouter.route("/assigned-rooms-by-maid").get(verifyJwt, async (req, res) => {
+  const { maidId, date } = req.query;
+  try {
+    const tasks = await TaskModel.find({ maid: maidId, date })
+      .populate("room", "number status note")
+      .lean();
+
+    const assigned = tasks
+      .filter((t) => t.room != null)
+      .map((t) => ({
+        roomId: t.room._id.toString(),
+        roomNumber: t.room.number,
+        status: t.room.status,
+        note: t.room.note,
+      }));
+
+    return res.json(assigned);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Server error" });
+  }
+});
+
+//edit room status by maid role
+roomRouter
+  .route("/update-room-status/:roomId")
+  .patch(verifyJwt, async (req, res) => {
+    const roomId = req.params.roomId;
+    const { status, note } = req.body;
+
+    try {
+      const room = await RoomModel.findById(roomId);
+      if (!room) {
+        return res.json({ message: "Room not found" });
+      }
+
+      if (status) {
+        room.status = status;
+      }
+
+      if (note !== undefined) {
+        room.note = note;
+      }
+      console.log("status", status, "note", note);
+      console.log(room);
+      await room.save();
+      console.log("spremljeno");
+
+      return res.json({ message: "update ", room });
+    } catch (error) {
+      console.error("error while saving room:", error);
+      return res.status(500).json({ error: error.message });
+    }
+  });
 
 module.exports = roomRouter;

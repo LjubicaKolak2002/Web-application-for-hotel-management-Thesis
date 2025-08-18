@@ -5,11 +5,14 @@ import SubmitBtn from "../../UI/SubmitBtn/SubmitBtn";
 import ErrorMessage from "../../UI/ErrorMessage/ErrorMessage";
 import Select from "../../UI/Select/Select";
 import Checkbox from "../../UI/Checkbox/Checkbox";
+import MainLayout from "../MainLayout/MainLayout";
+import "./AddRoom.scss";
 
 const AddRoom = () => {
   const [formData, setFormData] = useState({
     number: "",
     capacity: "",
+    image: "",
     category: "",
     type: "",
     features: [],
@@ -19,6 +22,8 @@ const AddRoom = () => {
   const [categories, setCategories] = useState([]);
   const [types, setTypes] = useState([]);
   const [features, setFeatures] = useState([]);
+
+  const [imagePreview, setImagePreview] = useState("");
   const [error, setError] = useState("");
 
   const navigate = useNavigate();
@@ -33,6 +38,28 @@ const AddRoom = () => {
       Authorization: "Bearer " + token,
     },
   };
+  function handleImageUpload(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const localImageUrl = URL.createObjectURL(file); //privremeni url slike
+    setImagePreview(localImageUrl);
+
+    const formData = new FormData();
+    formData.append("image", file);
+
+    fetch("http://localhost:5200/api/upload-image", {
+      method: "POST",
+      body: formData,
+    })
+      .then((resp) => resp.json())
+      .then((data) => {
+        if (data.imageUrl) {
+          setFormData((prev) => ({ ...prev, image: data.imageUrl }));
+        }
+      })
+      .catch((err) => console.error("Greška prilikom upload-a", err));
+  }
 
   async function getCategories() {
     const response = await fetch(
@@ -85,7 +112,8 @@ const AddRoom = () => {
       !formData.capacity ||
       !formData.category ||
       !formData.type ||
-      !formData.price
+      !formData.price ||
+      !formData.image
     ) {
       setError("All fields are required!");
       return;
@@ -113,65 +141,104 @@ const AddRoom = () => {
   }, []);
 
   return (
-    <div className="outer">
-      <div className="form">
-        <div className="form-body">
-          <header>Add New Room</header>
-          <br />
+    <div className="add-room-main-container">
+      <MainLayout isDoubleForm={true} offsetTop={30}>
+        <div className="add-room">
+          <header className="add-room-header">Add New Room</header>
 
-          <form onSubmit={addRoom}>
-            <Input
-              value={formData.number}
-              onChange={handleChange}
-              placeholder="Room Number"
-              name="number"
-            />
-            <Input
-              value={formData.capacity}
-              onChange={handleChange}
-              placeholder="Capacity"
-              name="capacity"
-            />
-            <Select
-              value={formData.category}
-              onChange={handleChange}
-              options={categories.map((cat) => ({
-                value: cat._id,
-                label: cat.name,
-              }))}
-              name="category"
-            />
+          <form onSubmit={addRoom} className="add-room-form-wrapper">
+            <div className="add-room-form">
+              <div className="add-room-column">
+                <Input
+                  value={formData.number}
+                  onChange={handleChange}
+                  placeholder="Room Number"
+                  name="number"
+                  iconClass="fa-solid fa-bed"
+                />
+                <Input
+                  value={formData.capacity}
+                  onChange={handleChange}
+                  placeholder="Capacity"
+                  name="capacity"
+                  iconClass="fa-solid fa-user-group"
+                />
+                <label>Category:</label>
+                <Select
+                  value={formData.category}
+                  onChange={handleChange}
+                  options={categories.map((cat) => ({
+                    value: cat._id,
+                    label: cat.name,
+                  }))}
+                  name="category"
+                  placeholder="Select category"
+                />
 
-            <Select
-              value={formData.type}
-              onChange={handleChange}
-              options={types.map((type) => ({
-                value: type._id,
-                label: type.name,
-              }))}
-              name="type"
-            />
+                <label>Type:</label>
+                <Select
+                  value={formData.type}
+                  onChange={handleChange}
+                  options={types.map((type) => ({
+                    value: type._id,
+                    label: type.name,
+                  }))}
+                  name="type"
+                  placeholder="Select type"
+                />
+              </div>
+              <div className="add-room-column">
+                <Input
+                  value={formData.price}
+                  onChange={handleChange}
+                  placeholder="Price"
+                  name="price"
+                  iconClass="fa-solid fa-money-check-dollar"
+                />
 
-            <Checkbox
-              options={features.map((feat) => ({
-                value: feat._id,
-                label: feat.name,
-              }))}
-              value={formData.features}
-              onChange={handleFeatureChange}
-            />
+                <div className="feature-group">
+                  <span>Select features:</span>
+                  <Checkbox
+                    options={features.map((feat) => ({
+                      value: feat._id,
+                      label: feat.name,
+                    }))}
+                    value={formData.features}
+                    onChange={handleFeatureChange}
+                  />
+                </div>
 
-            <Input
-              value={formData.price}
-              onChange={handleChange}
-              placeholder="Price"
-              name="price"
-            />
-            <SubmitBtn label="Add Room" />
+                <div className="picture-div">
+                  <span>Picture:</span>
+
+                  <div className="file-group">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageUpload}
+                    />
+                  </div>
+
+                  {imagePreview && (
+                    <img
+                      src={imagePreview}
+                      alt="Preview"
+                      style={{
+                        width: "250px",
+                        marginTop: "20px",
+                        borderRadius: "4px",
+                        height: "140px",
+                      }}
+                    />
+                  )}
+                </div>
+              </div>
+            </div>
             <ErrorMessage message={error} />
+            <SubmitBtn label="Add Room" />
           </form>
         </div>
-      </div>
+      </MainLayout>
     </div>
   );
 };

@@ -1,12 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Textarea from "../../UI/Textarea/Textarea";
 import SubmitBtn from "../../UI/SubmitBtn/SubmitBtn";
 import ErrorMessage from "../../UI/ErrorMessage/ErrorMessage";
+import MainLayout from "../MainLayout/MainLayout";
+import "./BlockRoom.scss";
 
 const BlockRoom = () => {
   const [blockReason, setBlockReason] = useState("");
   const [error, setError] = useState("");
+  const [room, setRoom] = useState("");
   const navigate = useNavigate();
   const params = useParams();
   const token = localStorage.getItem("token");
@@ -26,7 +29,6 @@ const BlockRoom = () => {
     e.preventDefault();
     setError("");
 
-    // Provjeriti je li reason popunjen
     if (!blockReason) {
       setError("Block reason is required.");
       return;
@@ -40,7 +42,7 @@ const BlockRoom = () => {
       .then((response) => response.json())
       .then((data) => {
         if (data) {
-          navigate("/room-list"); // Preusmjeri na listu soba nakon blokiranja
+          navigate("/room-list");
         } else {
           setError("Error blocking room");
         }
@@ -48,18 +50,40 @@ const BlockRoom = () => {
       .catch(() => setError("Something went wrong"));
   }
 
+  async function getRoom() {
+    const response = await fetch(
+      `http://localhost:5200/api/room/${params.room_id}`,
+      options
+    );
+    if (!response.ok) {
+      setError("Error");
+      return;
+    }
+    const roomResult = await response.json();
+    setRoom(roomResult.number);
+  }
+
+  useEffect(() => {
+    getRoom();
+  }, []);
   return (
-    <form onSubmit={handleBlock}>
-      <h2>Block Room</h2>
-      <Textarea
-        value={blockReason}
-        onChange={(e) => setBlockReason(e.target.value)}
-        placeholder="Enter block reason"
-        name="blockReason"
-      />
-      {error && <ErrorMessage>{error}</ErrorMessage>}
-      <SubmitBtn label="Block" />
-    </form>
+    <div className="block-room-main-container">
+      <MainLayout>
+        <div className="block-room">
+          <header className="block-room-header">Block room {room}</header>
+          <form onSubmit={handleBlock} className="block-room-form">
+            <Textarea
+              value={blockReason}
+              onChange={(e) => setBlockReason(e.target.value)}
+              placeholder="Enter block reason"
+              name="blockReason"
+            />
+            {error && <ErrorMessage>{error}</ErrorMessage>}
+            <SubmitBtn label="Block" />
+          </form>
+        </div>
+      </MainLayout>
+    </div>
   );
 };
 

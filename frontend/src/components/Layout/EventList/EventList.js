@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import ConfirmationModal from "../../UI/Modal/Modal";
-import "./EventList.css";
+import Button from "../../UI/Button/Button";
 import Select from "../../UI/Select/Select";
+import "./EventList.scss";
 
 const EventList = () => {
   const [events, setEvents] = useState([]);
   const [role, setRole] = useState("");
-  const [eventFilter, setEventFilter] = useState("All");
+  const initialRole = JSON.parse(localStorage.getItem("user"))?.role;
+  const [eventFilter, setEventFilter] = useState(
+    initialRole === "admin" ? "All" : "Current"
+  );
 
   const [filteredEvents, setFilteredEvents] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -15,37 +19,35 @@ const EventList = () => {
   const token = localStorage.getItem("token");
   const userString = localStorage.getItem("user");
 
-  if (!token) {
-    window.location.href = "/login";
-  }
-  const options = { headers: { Authorization: "Bearer " + token } };
-
   async function getEvents() {
-    const response = await fetch(
-      "http://localhost:5200/api/events-list",
-      options
-    );
-    const json = await response.json();
-    setEvents(json);
-    setFilteredEvents(json);
+    try {
+      const response = await fetch("http://localhost:5200/api/events-list");
+      const json = await response.json();
+      setEvents(json);
+    } catch (err) {
+      console.error("Fetch events error:", err);
+    }
   }
 
   async function deleteEvent() {
     if (!selectedEvent) return;
-
-    const response = await fetch(
-      `http://localhost:5200/api/remove-event/${selectedEvent._id}`,
-      {
-        method: "DELETE",
-        headers: { Authorization: "Bearer " + token },
+    try {
+      const response = await fetch(
+        `http://localhost:5200/api/remove-event/${selectedEvent._id}`,
+        {
+          method: "DELETE",
+          headers: { Authorization: "Bearer " + token },
+        }
+      );
+      const result = await response.json();
+      if (result.deletedEvent) {
+        setEvents((prev) => prev.filter((e) => e._id !== selectedEvent._id));
       }
-    );
-    const result = await response.json();
-
-    if (result.deletedEvent) {
-      setEvents(events.filter((event) => event._id !== selectedEvent._id));
+      setShowModal(false);
+    } catch (err) {
+      console.error("Delete event error:", err);
+      setShowModal(false);
     }
-    setShowModal(false);
   }
 
   useEffect(() => {
@@ -58,100 +60,120 @@ const EventList = () => {
 
   useEffect(() => {
     const today = new Date();
-
     const filtered = events.filter((event) => {
-      const eventDate = new Date(event.datetime);
-
+      const evDate = new Date(event.datetime);
       if (eventFilter === "All") return true;
-      if (eventFilter === "Past") return eventDate < today;
-      if (eventFilter === "Current") return eventDate === today;
-      if (eventFilter === "Future") return eventDate > today;
-
+      if (eventFilter === "Past") return evDate < today;
+      if (eventFilter === "Current")
+        return evDate.toDateString() === today.toDateString();
+      if (eventFilter === "Future") return evDate > today;
       return true;
     });
-
     setFilteredEvents(filtered);
   }, [eventFilter, events]);
 
   return (
-    <div className="events-container">
-      <h1 className="title">Our events</h1>
+    <div
+      className={`events-container ${
+        role === "admin" ? "admin-events-container" : ""
+      }`}
+    >
+      <div
+        className={`events-header ${
+          role === "admin" ? "admin-events-header" : ""
+        }`}
+      >
+        <h1
+          className={`events-title ${
+            role === "admin" ? "admin-events-title" : ""
+          }`}
+        >
+          Our Events
+        </h1>
+        <div className="select-wrapper">
+          {role === "admin" ? (
+            <>
+              <Select
+                className="select-events"
+                name="eventFilter"
+                value={eventFilter}
+                onChange={(e) => setEventFilter(e.target.value)}
+                options={[
+                  { value: "All", label: "All" },
+                  { value: "Past", label: "Past Events" },
+                  { value: "Current", label: "Current Events" },
+                  { value: "Future", label: "Future Events" },
+                ]}
+              />
+              <Link to="/add-event">
+                <Button variant="add" label="+ Add" className="add-event-btn" />
+              </Link>
+            </>
+          ) : (
+            <Select
+              name="eventFilter"
+              value={eventFilter}
+              onChange={(e) => setEventFilter(e.target.value)}
+              options={[
+                { value: "Current", label: "Current Events" },
+                { value: "Future", label: "Future Events" },
+              ]}
+            />
+          )}
+        </div>
+      </div>
 
-      {role === "admin" ? (
-        <Select
-          name="eventFilter"
-          value={eventFilter}
-          onChange={(e) => setEventFilter(e.target.value)}
-          options={[
-            { value: "All", label: "All" },
-            { value: "Past", label: "Past Events" },
-            { value: "Current", label: "Current Events" },
-            { value: "Future", label: "Future Events" },
-          ]}
-        />
-      ) : (
-        <Select
-          name="eventFilter"
-          value={eventFilter}
-          onChange={(e) => setEventFilter(e.target.value)}
-          options={[
-            { value: "All", label: "All" },
-            { value: "Current", label: "Current Events" },
-            { value: "Future", label: "Future Events" },
-          ]}
-        />
-      )}
-      <br />
-      <br />
-
-      {events.length === 0 ? (
+      {filteredEvents.length === 0 ? (
         <p className="no-events">No events available.</p>
       ) : (
         <div className="event-grid">
           {filteredEvents.map((event) => (
             <div key={event._id} className="event-card">
-              {event.image && (
-                <div className="event-image">
-                  <img
-                    src={event.image}
-                    alt={event.name}
-                    style={{
-                      width: "150px",
-                      height: "150px",
-                      objectFit: "cover",
-                    }}
-                  />
+              {event.image ? (
+                <div
+                  className="card-image"
+                  style={{ backgroundImage: `url(${event.image})` }}
+                ></div>
+              ) : (
+                <div className="card-image no-image">
+                  <i className="fa-solid fa-image"></i>
+                  <span>No image available</span>
                 </div>
               )}
 
-              <div className="event-info">
-                <h2>{event.name}</h2>
-                <p className="event-meta">
-                  <strong>Date & Time:</strong>{" "}
-                  {new Date(event.datetime).toLocaleString()}
+              <div className="card-overlay"></div>
+
+              <div className="card-content">
+                <h2 className="card-title">{event.name}</h2>
+                <p className="card-date">
+                  {new Date(event.datetime).toLocaleDateString()} &bull;{" "}
+                  {new Date(event.datetime).toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
                 </p>
-                <p className="event-meta">
-                  <strong>Capacity:</strong> {event.capacity}
+                <p className="card-info">
+                  <strong>Capacity:</strong> {event.capacity} |{" "}
+                  <strong>Available:</strong> {event.availableSpots || "N/A"}
                 </p>
-                <p className="event-meta">
-                  <strong>Available Spots:</strong>{" "}
-                  {event.availableSpots || "N/A"}
-                </p>
-                {role === "admin" && (
-                  <button
-                    onClick={() => {
-                      setSelectedEvent(event);
-                      setShowModal(true);
-                    }}
-                  >
-                    Remove
-                  </button>
-                )}
-                <p>
-                  <Link to={`/events/${event._id}`}>
-                    <button>View more</button>
+
+                <div className="card-buttons">
+                  {role === "admin" && (
+                    <Button
+                      variant="red"
+                      className="btn-delete"
+                      onClick={() => {
+                        setSelectedEvent(event);
+                        setShowModal(true);
+                      }}
+                      label={<i className="fa-solid fa-trash"></i>}
+                    />
+                  )}
+
+                  <Link to={`/events/${event._id}`} className="btn-view">
+                    View More
                   </Link>
-                </p>
+                </div>
               </div>
             </div>
           ))}
@@ -163,7 +185,7 @@ const EventList = () => {
         handleClose={() => setShowModal(false)}
         handleConfirm={deleteEvent}
         title="Confirm Deletion"
-        body={`Are you sure you want to delete this event: ${selectedEvent?.name}`}
+        body={`Are you sure you want to delete this event: ${selectedEvent?.name}?`}
         confirmLabel="Delete"
         closeLabel="Cancel"
       />

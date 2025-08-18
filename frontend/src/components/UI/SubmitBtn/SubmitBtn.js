@@ -1,4 +1,4 @@
-import "./SubmitBtn.css";
+import "./SubmitBtn.scss";
 
 const SubmitBtn = (props) => {
   return (
@@ -6,7 +6,7 @@ const SubmitBtn = (props) => {
       type="submit"
       onClick={props.onClick}
       disabled={props.disabled}
-      className="submit-btn"
+      className={`submitButton ${props.className || ""}`}
     >
       {props.label}
     </button>

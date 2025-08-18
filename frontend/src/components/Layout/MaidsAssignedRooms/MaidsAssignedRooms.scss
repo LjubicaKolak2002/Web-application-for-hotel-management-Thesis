@@ -1,0 +1,61 @@
+.maidsAssignedRooms {
+  align-items: center;
+  background: #f4f6f8;
+  display: flex;
+  flex-direction: column;
+  font-family: Roboto, sans-serif;
+  /* justify-content: center; */
+  min-height: 100vh;
+  padding: 1rem;
+
+  h2 {
+    color: #4c445d;
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    margin-top: 80px;
+  }
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    max-width: 600px;
+
+    li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      background: #fff;
+      border: 1px solid #6600ff26;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px #0000000d;
+      font-size: 1rem;
+      padding: 0.75rem 1rem;
+
+      span.done-text {
+        font-weight: 600;
+        color: #55369a;
+      }
+
+      .done-icon,
+      .edit-icon {
+        font-size: 1.2rem;
+        color: #55369a;
+        cursor: pointer;
+      }
+
+      .edit-icon:hover {
+        color: #3f2c6b;
+      }
+    }
+  }
+
+  p {
+    text-align: center;
+    font-size: 1rem;
+    color: #666;
+  }
+}

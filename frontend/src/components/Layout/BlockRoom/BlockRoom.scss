@@ -1,0 +1,22 @@
+.block-room-main-container {
+  padding-left: 220px;
+}
+
+.block-room-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  & .submitButton {
+    margin-top: 24px;
+  }
+}
+
+.block-room-header {
+  font-size: 1.75rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  text-align: center;
+  color: #4c445d;
+  margin-top: 8px;
+}

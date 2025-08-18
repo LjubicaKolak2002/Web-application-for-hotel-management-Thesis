@@ -5,6 +5,8 @@ import SubmitBtn from "../../UI/SubmitBtn/SubmitBtn";
 import ErrorMessage from "../../UI/ErrorMessage/ErrorMessage";
 import Select from "../../UI/Select/Select";
 import Checkbox from "../../UI/Checkbox/Checkbox";
+import MainLayout from "../MainLayout/MainLayout";
+import "./EditRoom.scss";
 
 const EditRoom = () => {
   const [formData, setFormData] = useState({
@@ -14,9 +16,11 @@ const EditRoom = () => {
     type: "",
     features: [],
     price: "",
-    status: "free",
+    status: "",
     blockReason: "",
+    image: "",
   });
+  const [imagePreview, setImagePreview] = useState("");
 
   const [categories, setCategories] = useState([]);
   const [features, setFeatures] = useState([]);
@@ -107,6 +111,7 @@ const EditRoom = () => {
         : parseFloat(roomResult.price) || 0,
       status: roomResult.status || "free",
       blockReason: roomResult.blockReason || "",
+      image: roomResult.image || "",
     });
   }
 
@@ -194,6 +199,28 @@ const EditRoom = () => {
       });
   }
 
+  function handleImageUpload(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    setImagePreview(URL.createObjectURL(file));
+
+    const data = new FormData();
+    data.append("image", file);
+
+    fetch("http://localhost:5200/api/upload-image", {
+      method: "POST",
+      body: data,
+    })
+      .then((r) => r.json())
+      .then((d) => {
+        if (d.imageUrl) {
+          setFormData((prev) => ({ ...prev, image: d.imageUrl }));
+        }
+      })
+      .catch((err) => console.error("Upload error", err));
+  }
+
   useEffect(() => {
     getRoom();
     getCategories();
@@ -202,119 +229,154 @@ const EditRoom = () => {
   }, []);
 
   return (
-    <div className="edit-room-container">
-      <h3>Edit Room</h3>
-      <form onSubmit={updateData}>
-        <Input
-          value={formData.number}
-          onChange={handleChange}
-          placeholder="Room Number"
-          name="number"
-        />
-        <ErrorMessage
-          message={error && !formData.number ? "Room number is required" : ""}
-        />
-        <br />
+    <div className="edit-room-main-container">
+      <MainLayout isDoubleForm={true} offsetTop={60}>
+        <div className="edit-room">
+          <header className="edit-room-header">Edit Room</header>
+          <form onSubmit={updateData} className="edit-room-form-wrapper">
+            <div className="edit-room-form">
+              <div className="edit-room-column">
+                <Input
+                  value={formData.number}
+                  onChange={handleChange}
+                  placeholder="Room Number"
+                  name="number"
+                  iconClass="fa-solid fa-bed"
+                />
+                <ErrorMessage
+                  message={
+                    error && !formData.number ? "Room number is required" : ""
+                  }
+                />
 
-        <Input
-          type="number"
-          value={formData.capacity}
-          onChange={handleChange}
-          placeholder="Capacity"
-          name="capacity"
-        />
-        <ErrorMessage
-          message={error && !formData.capacity ? "Capacity is required" : ""}
-        />
-        <br />
+                <Input
+                  type="number"
+                  value={formData.capacity}
+                  onChange={handleChange}
+                  placeholder="Capacity"
+                  name="capacity"
+                  iconClass="fa-solid fa-user-group"
+                />
+                <ErrorMessage
+                  message={
+                    error && !formData.capacity ? "Capacity is required" : ""
+                  }
+                />
 
-        <Checkbox
-          name="features"
-          value={formData.features}
-          onChange={handleFeaturesChange}
-          options={features.map((feat) => ({
-            value: feat._id,
-            label: feat.name,
-            checked: formData.features.includes(String(feat._id)), // 🔹 Provjera ID-a kao stringa
-          }))}
-        />
+                <label>Category:</label>
+                <Select
+                  name="category"
+                  value={formData.category}
+                  onChange={handleChange}
+                  options={categories.map((cat) => ({
+                    value: cat._id,
+                    label: cat.name,
+                  }))}
+                  placeholder="Select Category"
+                />
+                <ErrorMessage
+                  message={
+                    error && !formData.category ? "Category is required" : ""
+                  }
+                />
+                <label>Type:</label>
 
-        <Select
-          name="category"
-          value={formData.category}
-          onChange={handleChange}
-          options={categories.map((cat) => ({
-            value: cat._id,
-            label: cat.name,
-          }))}
-          placeholder="Select Category"
-        />
-        <ErrorMessage
-          message={error && !formData.category ? "Category is required" : ""}
-        />
-        <br />
-        <br />
+                <Select
+                  name="type"
+                  value={formData.type}
+                  onChange={handleChange}
+                  options={types.map((type) => ({
+                    value: type._id,
+                    label: type.name,
+                  }))}
+                  placeholder="Select type"
+                />
+                <ErrorMessage
+                  message={error && !formData.type ? "Type is required" : ""}
+                />
 
-        <Select
-          name="type"
-          value={formData.type}
-          onChange={handleChange}
-          options={types.map((type) => ({
-            value: type._id,
-            label: type.name,
-          }))}
-          placeholder="Select type"
-        />
-        <ErrorMessage
-          message={error && !formData.type ? "Type is required" : ""}
-        />
+                <Input
+                  type="number"
+                  value={formData.price}
+                  onChange={handleChange}
+                  placeholder="Price"
+                  name="price"
+                  iconClass="fa-solid fa-money-check-dollar"
+                />
+                <ErrorMessage
+                  message={error && !formData.price ? "Price is required" : ""}
+                />
+              </div>
 
-        <Select
-          name="status"
-          value={formData.status}
-          onChange={handleChange}
-          options={[
-            { value: "free", label: "Free" },
-            { value: "occupied", label: "Occupied" },
-            { value: "reserved", label: "Reserved" },
-            { value: "clean", label: "Clean" },
-            { value: "dirty", label: "Dirty" },
-            { value: "blocked", label: "Blocked" },
-          ]}
-        />
-        <br />
-        <br />
-        {formData.status === "blocked" && (
-          <>
-            <Input
-              value={formData.blockReason}
-              onChange={handleChange}
-              placeholder="Block Reason"
-              name="blockReason"
-            />
-            <ErrorMessage
-              message={
-                error && !formData.blockReason
-                  ? "Block reason is required when room is blocked"
-                  : ""
-              }
-            />
-          </>
-        )}
+              <div className="edit-room-column">
+                <div className="edit-room-features">
+                  <span>Room features:</span>
+                  <Checkbox
+                    name="features"
+                    value={formData.features}
+                    onChange={handleFeaturesChange}
+                    options={features.map((feat) => ({
+                      value: feat._id,
+                      label: feat.name,
+                      checked: formData.features.includes(String(feat._id)),
+                    }))}
+                  />
+                </div>
 
-        <Input
-          type="number"
-          value={formData.price}
-          onChange={handleChange}
-          placeholder="Price"
-          name="price"
-        />
-        <ErrorMessage
-          message={error && !formData.price ? "Price is required" : ""}
-        />
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                  className="edit-room-file-upload"
+                />
+                {(imagePreview || formData.image) && (
+                  <img
+                    src={imagePreview || formData.image}
+                    alt="Room"
+                    className="room-image-preview"
+                  />
+                )}
 
-        <SubmitBtn label="Save" />
-      </form>
+                <div className="edit-room-status">
+                  <label>Room status:</label>
+                  <Select
+                    name="status"
+                    value={formData.status}
+                    onChange={handleChange}
+                    options={[
+                      { value: "free", label: "Free" },
+                      { value: "occupied", label: "Occupied" },
+
+                      { value: "clean", label: "Clean" },
+                      { value: "dirty", label: "Dirty" },
+                      { value: "blocked", label: "Blocked" },
+                    ]}
+                  />
+                </div>
+                {formData.status === "blocked" && (
+                  <>
+                    <Input
+                      value={formData.blockReason}
+                      onChange={handleChange}
+                      placeholder="Block Reason"
+                      name="blockReason"
+                      iconClass="fa-solid fa-note-sticky"
+                    />
+                    <ErrorMessage
+                      message={
+                        error && !formData.blockReason
+                          ? "Block reason is required when room is blocked"
+                          : ""
+                      }
+                    />
+                  </>
+                )}
+              </div>
+            </div>
+            <SubmitBtn label="Save" />
+          </form>
+        </div>
+      </MainLayout>
     </div>
   );
 };

@@ -2,21 +2,23 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 const HomePageTest = () => {
-  const storedUser = JSON.parse(localStorage.getItem("user"));
-  const username = storedUser ? storedUser.name : null;
   const [role, setRole] = useState("");
-  const userString = localStorage.getItem("user");
-  const token = localStorage.getItem("token");
-
-  if (!token) {
-    window.location.href = "/login";
-  }
+  const [username, setUsername] = useState("");
+  const [userId, setUserId] = useState(null);
 
   useEffect(() => {
+    const userString = localStorage.getItem("user");
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      window.location.href = "/login";
+    }
+
     if (userString) {
       const user = JSON.parse(userString);
-      const userRole = user.role;
-      setRole(userRole);
+      setUsername(user.name);
+      setRole(user.role);
+      setUserId(user.id);
     }
   }, []);
 
@@ -26,7 +28,25 @@ const HomePageTest = () => {
         <>
           <h1 className="text-3xl font-bold mb-4">Welcome, {username}!</h1>
           <p className="text-lg mb-6">You are successfully logged in.</p>
-          <Link to="/logout">Logout</Link>
+
+          {/* ---------------- User ---------------- */}
+          {role === "user" && (
+            <>
+              <p>
+                <Link to={`/my-future-reservations/${userId}`}>
+                  My future reservations
+                </Link>
+              </p>
+              <p>
+                <Link to={`/my-past-reservations/${userId}`}>
+                  My past reservations
+                </Link>
+              </p>
+              <Link to="/logout">Logout</Link>
+            </>
+          )}
+
+          {/* ---------------- Admin ---------------- */}
           {role === "admin" && (
             <>
               <p>
@@ -37,27 +57,22 @@ const HomePageTest = () => {
               </p>
 
               <h2>Rooms</h2>
-              <h3>ADD</h3>
               <p>
                 <Link to="/add-room-category">Add room category</Link>
-              </p>
-              <p>
-                <Link to="/add-room-type">Add room type</Link>
               </p>
               <p>
                 <Link to="/add-room-feature">Add room feature</Link>
               </p>
               <p>
-                <Link to="/add-room">Add room </Link>
+                <Link to="/add-room">Add room</Link>
               </p>
-
-              <h3>LIST</h3>
               <p>
                 <Link to="/room-categories-list">Room categories</Link>
               </p>
               <p>
                 <Link to="/room-list">Room list</Link>
               </p>
+
               <h2>Events</h2>
               <p>
                 <Link to="/add-event">Add new event</Link>
@@ -65,6 +80,47 @@ const HomePageTest = () => {
               <p>
                 <Link to="/events-list">Events list</Link>
               </p>
+
+              <h2>Booking</h2>
+              <p>
+                <Link to="/available-rooms">Available rooms</Link>
+              </p>
+              <Link to="/logout">Logout</Link>
+            </>
+          )}
+
+          {/* ---------------- Head Maid ---------------- */}
+          {role === "head maid" && (
+            <>
+              <p>
+                <Link to="/maids-list">Maids</Link>
+              </p>
+              <p>
+                <Link to="/maids-checkList">Check list</Link>
+              </p>
+              <Link to="/logout">Logout</Link>
+            </>
+          )}
+
+          {role === "maid" && (
+            <>
+              <p>
+                <Link to="/maids-assigned-rooms">My assigned rooms</Link>
+              </p>
+
+              <Link to="/logout">Logout</Link>
+            </>
+          )}
+
+          {role === "receptionist" && (
+            <>
+              <p>
+                <Link to="/arrivals-departures">Arrivals and departures</Link>
+              </p>
+              <p>
+                <Link to="/room-list">Rooms</Link>
+              </p>
+              <Link to="/logout">Logout</Link>
             </>
           )}
         </>

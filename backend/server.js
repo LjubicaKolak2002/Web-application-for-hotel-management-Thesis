@@ -9,6 +9,9 @@ const fs = require("fs");
 const userRouter = require("./routes/userRoute.js");
 const roomRouter = require("./routes/roomRoute.js");
 const eventRouter = require("./routes/eventRoute.js");
+const bookingRouter = require("./routes/bookingRoute.js");
+const reviewRouter = require("./routes/reviewRoute.js");
+const statisticsRouter = require("./routes/statisticsRoute.js");
 
 const app = express();
 
@@ -47,5 +50,11 @@ const port = process.env.PORT || 5200;
 app.use("/api", userRouter);
 app.use("/api", roomRouter);
 app.use("/api", eventRouter);
+app.use("/api", bookingRouter);
+app.use("/api", reviewRouter);
+app.use("/api", statisticsRouter);
 
-server = app.listen(port, () => console.log(`Server running on port ${port}`));
+//pwa
+server = app.listen(port, "0.0.0.0", () =>
+  console.log(`Server running on port ${port}`)
+);

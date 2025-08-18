@@ -5,6 +5,8 @@ import SubmitBtn from "../../UI/SubmitBtn/SubmitBtn";
 import Textarea from "../../UI/Textarea/Textarea";
 import ErrorMessage from "../../UI/ErrorMessage/ErrorMessage";
 import DatetimeInput from "../../UI/Datetime/Datetime";
+import MainLayout from "../MainLayout/MainLayout";
+import "./AddEvent.scss";
 
 const AddEvent = () => {
   const [formData, setFormData] = useState({
@@ -91,77 +93,93 @@ const AddEvent = () => {
     })
       .then((resp) => resp.json())
       .then(() => {
-        navigate("/");
+        navigate("/events-list");
       })
       .catch((err) => console.log(err));
   }
 
   return (
-    <div className="outer">
-      <div className="form">
-        <div className="form-body">
-          <header>Add New Event</header>
-          <br />
+    <div className="add-event-main-container">
+      <MainLayout isDoubleForm={true}>
+        <div className="add-event">
+          <header className="add-event-header">Add event</header>
 
-          <form onSubmit={addEvent}>
-            <Input
-              value={formData.name}
-              onChange={handleChange}
-              placeholder="Name"
-              name="name"
-            />
-            <Textarea
-              value={formData.description}
-              onChange={handleChange}
-              placeholder="Description"
-              name="description"
-            />
-            <Input
-              value={formData.organizer}
-              onChange={handleChange}
-              placeholder="Organizer"
-              name="organizer"
-            />
+          <form onSubmit={addEvent} className="add-event-form-wrapper">
+            <div className="add-event-form">
+              <div className="add-event-column">
+                <Input
+                  value={formData.name}
+                  onChange={handleChange}
+                  placeholder="Name"
+                  name="name"
+                />
 
-            <DatetimeInput
-              value={
-                formData.datetime
-                  ? new Date(formData.datetime).toISOString().slice(0, 16)
-                  : ""
-              }
-              onChange={handleChange}
-              placeholder="Datetime"
-              name="datetime"
-            />
+                <Input
+                  value={formData.organizer}
+                  onChange={handleChange}
+                  placeholder="Organizer"
+                  name="organizer"
+                />
 
-            <Input
-              value={formData.location}
-              onChange={handleChange}
-              placeholder="Location"
-              name="location"
-            />
-            <Input
-              value={formData.capacity}
-              onChange={handleChange}
-              placeholder="Capacity"
-              name="capacity"
-            />
+                <Input
+                  value={formData.capacity}
+                  onChange={handleChange}
+                  placeholder="Capacity"
+                  name="capacity"
+                />
 
-            <input type="file" accept="image/*" onChange={handleImageUpload} />
+                <DatetimeInput
+                  value={
+                    formData.datetime
+                      ? new Date(formData.datetime).toISOString().slice(0, 16)
+                      : ""
+                  }
+                  onChange={handleChange}
+                  placeholder="Datetime"
+                  name="datetime"
+                />
 
-            {imagePreview && (
-              <img
-                src={imagePreview}
-                alt="Preview"
-                style={{ width: "150px", marginTop: "10px" }}
-              />
-            )}
+                <Input
+                  value={formData.location}
+                  onChange={handleChange}
+                  placeholder="Location"
+                  name="location"
+                />
+              </div>
+              <div className="add-event-column">
+                <Textarea
+                  value={formData.description}
+                  onChange={handleChange}
+                  placeholder="Description"
+                  name="description"
+                />
+                <div className="add-event-add-picture">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                  />
 
+                  {imagePreview && (
+                    <img
+                      src={imagePreview}
+                      alt="Preview"
+                      style={{
+                        width: "250px",
+                        height: "170px",
+                        marginTop: "10px",
+                      }}
+                    />
+                  )}
+                </div>
+
+                <ErrorMessage message={error} />
+              </div>
+            </div>
             <SubmitBtn label="Add event" />
-            <ErrorMessage message={error} />
           </form>
         </div>
-      </div>
+      </MainLayout>
     </div>
   );
 };

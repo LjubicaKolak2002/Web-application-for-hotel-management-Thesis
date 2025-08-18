@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import Input from "../../UI/Input/Input";
 import SubmitBtn from "../../UI/SubmitBtn/SubmitBtn";
 import PasswordInput from "../../UI/PasswordInput/PasswordInput";
 import ErrorMessage from "../../UI/ErrorMessage/ErrorMessage";
+import MainLayout from "../MainLayout/MainLayout";
+import "./Login.scss";
 
-const Login = () => {
+const Login = ({ onLogin }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -28,62 +30,106 @@ const Login = () => {
       return;
     }
 
-    fetch("http://localhost:5200/api/login", {
+    fetch("http://192.168.56.1:5200/api/login", {
       method: "POST",
       body: JSON.stringify({ email, password }),
       headers: { "Content-type": "application/json;charset=UTF-8" },
     })
-      .then((resp) => resp.json())
+      .then((resp) => {
+        console.log("Response status:", resp.status);
+        return resp.json();
+      })
       .then((data) => {
+        console.log("Response data:", data);
         if (data.accessToken) {
           localStorage.setItem("token", data.accessToken);
-          localStorage.setItem(
-            "user",
-            JSON.stringify({
+          const userObj = {
+            id: data.user_id,
+            name: data.user_name,
+            role: data.user_role,
+          };
+          localStorage.setItem("user", JSON.stringify(userObj));
+
+          if (onLogin) {
+            onLogin(userObj);
+          }
+
+          if (data.accessToken) {
+            localStorage.setItem("token", data.accessToken);
+            const userObj = {
               id: data.user_id,
               name: data.user_name,
               role: data.user_role,
-            })
-          );
-          navigate("/");
+            };
+            localStorage.setItem("user", JSON.stringify(userObj));
+
+            if (onLogin) {
+              onLogin(userObj);
+            }
+
+            switch (data.user_role) {
+              case "maid":
+                navigate("/maids-assigned-rooms");
+                break;
+              case "admin":
+                navigate("/room-list");
+                break;
+              case "user":
+                navigate("/search-rooms-by-date");
+                break;
+              case "head maid":
+                navigate("/maids-checkList");
+                break;
+              case "receptionist":
+                navigate("/arrivals-departures");
+                break;
+              default:
+                navigate("/search-rooms-by-date");
+            }
+          } else {
+            setError("Invalid email or password.");
+          }
         } else {
           setError("Invalid email or password.");
         }
       })
-      .catch(() => setError("Something went wrong. Please try again."));
+      .catch((err) => {
+        setError("Something went wrong. Please try again.");
+      });
   }
 
   return (
-    <div className="outer">
-      <div className="form">
-        <div className="form-body">
-          <header>Sign in</header>
-          <br />
+    <MainLayout>
+      <div className="login">
+        <header className="login-header">Sign in</header>
 
-          <form onSubmit={handleLogin}>
-            <Input
-              value={email}
-              onChange={onChangeEmail}
-              placeholder="Email"
-              name="email"
-            />
-            <br />
-            <PasswordInput
-              value={password}
-              onChange={onChangePassword}
-              placeholder="Password"
-              name="password"
-            />
-            <br />
+        <form onSubmit={handleLogin} className="login-form">
+          <Input
+            value={email}
+            onChange={onChangeEmail}
+            placeholder="Email"
+            name="email"
+            iconClass="fa-solid fa-user"
+          />
+          <PasswordInput
+            value={password}
+            onChange={onChangePassword}
+            placeholder="Password"
+            name="password"
+            iconClass="fa-solid fa-lock"
+          />
 
-            <SubmitBtn label="Login" />
-            <br />
+          <ErrorMessage message={error} />
 
-            <ErrorMessage message={error} />
-          </form>
-        </div>
+          <SubmitBtn label="Login" />
+
+          <p className="register-paragraph">
+            <i className="fa-solid fa-circle-user"></i> Don't have an account?{" "}
+            <Link to="/register">Register here</Link>
+          </p>
+        </form>
       </div>
-    </div>
+    </MainLayout>
   );
 };
 

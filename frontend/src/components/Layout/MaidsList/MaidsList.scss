@@ -1,0 +1,179 @@
+.maidsContainer {
+  background: #f4f6f8;
+  min-height: 100vh;
+  padding: 2rem 1rem;
+  font-family: "Roboto", sans-serif;
+  color: #333;
+  padding-left: 220px;
+
+  .maidsTitle {
+    color: #4c445d;
+    font-size: 1.75rem;
+    margin-bottom: 2rem;
+    margin-top: 30px;
+    text-align: center;
+    font-weight: bold;
+  }
+
+  .noMaids,
+  .noCheckoutRooms,
+  .noRooms {
+    text-align: center;
+    color: #666;
+    font-style: italic;
+    margin-top: 1rem;
+  }
+
+  .maidsList {
+    grid-gap: 1.5rem;
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    margin: 0 auto;
+    max-width: 1100px;
+  }
+
+  .maidCard {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    .maidHeader {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .maidName {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #333;
+      }
+
+      .assignButton {
+        background-color: #55369a;
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        padding: 0.4rem 1rem;
+        font-size: 0.95rem;
+        cursor: pointer;
+        transition: background-color 0.2s;
+
+        &:hover:not(:disabled) {
+          background-color: #442f7a;
+        }
+        &:disabled {
+          background-color: #aaa;
+          cursor: default;
+        }
+      }
+    }
+
+    .roomButtonsContainer {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+
+      .roomTag {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        background: #e2e8f0;
+        border: none;
+        border-radius: 6px;
+        padding: 0.4rem 0.8rem;
+        font-size: 0.9rem;
+        color: #333;
+        cursor: default;
+
+        &.dirty {
+          background: #f8d7da;
+          color: #721c24;
+        }
+        &.clean {
+          background: #d4edda;
+          color: #155724;
+        }
+        &.done {
+          background: #0099e642;
+          color: #005580;
+        }
+
+        i {
+          font-size: 1rem;
+        }
+      }
+    }
+  }
+
+  .modalRoomList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+
+    .roomButton {
+      background-color: #e2e8f0;
+      border: none;
+      border-radius: 6px;
+      padding: 0.4rem 1rem;
+      font-size: 0.9rem;
+      color: #333;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+
+      &:hover:not(.assigned) {
+        background-color: #cbd5e1;
+      }
+      &.assigned {
+        background-color: #ccc;
+        cursor: default;
+      }
+    }
+  }
+
+  .currentNote {
+    background: #f1f1f1;
+    border-radius: 6px;
+    padding: 0.8rem;
+    margin-bottom: 1rem;
+
+    strong {
+      display: block;
+      margin-bottom: 0.3rem;
+      color: #333;
+    }
+
+    p {
+      margin: 0;
+      color: #444;
+      font-size: 0.9rem;
+    }
+  }
+}
+
+.maids-modal.modal-dialog {
+  max-width: 40vw;
+}
+
+.modalRoomList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.roomButton.unavailable {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+  border: 1px dashed #aaa;
+  opacity: 0.6;
+}
+
+.button.remove-note-btn {
+  width: 100%;
+  padding: 0.75rem;
+}

@@ -1,0 +1,51 @@
+.add-staff-main-container {
+  padding-left: 220px;
+}
+
+.add-staff-form {
+  display: flex;
+  gap: 16px;
+
+  @media screen and (max-width: 768px) {
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  @media screen and (min-width: 768px) {
+    // desktop
+    flex-direction: row;
+  }
+}
+
+.submitButton {
+  margin-top: 30px;
+}
+
+.add-staff-form-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  & .submitButton {
+    margin-top: 24px;
+  }
+}
+.add-staff-header {
+  font-size: 1.75rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  text-align: center;
+  color: #4c445d;
+  margin-top: 8px;
+}
+
+.add-staff-column {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  @media screen and (min-width: 768px) {
+    width: 50%;
+  }
+}

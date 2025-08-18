@@ -1,0 +1,94 @@
+.past-reservations-container {
+  padding: 2rem 3rem;
+  background: #f4f6f8;
+  min-height: 100vh;
+  margin-top: 50px;
+
+  h2 {
+    text-align: center;
+    font-size: 1.75rem;
+    margin-bottom: 1.5rem;
+    color: #4c445d;
+    position: relative;
+    top: 20px;
+  }
+}
+
+.pastResList {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.5rem;
+  width: 90%;
+  max-width: 1400px;
+  margin: 0 auto;
+  position: relative;
+  top: 20px;
+
+  .noRes {
+    color: #5c5470;
+    font-style: italic;
+    text-align: center;
+    font-size: 1.5rem;
+    margin-top: 25px;
+
+    //margin-left: 90px;
+  }
+}
+
+.resCardItem {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  font-family: "Roboto", sans-serif;
+
+  .resHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+
+    .roomNumber {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #453861;
+    }
+    .status {
+      text-transform: capitalize;
+      font-size: 0.85rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 8px;
+
+      &.cancelled {
+        background: #ffe0e0;
+        color: #c53030;
+      }
+    }
+  }
+
+  .resBody {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 0.5rem;
+
+    div {
+      font-size: 0.95rem;
+      color: #444;
+    }
+  }
+
+  .priceLine {
+    margin-top: 0.5rem;
+  }
+  .priceTag {
+    background: #fff4c1;
+    color: #c49d03;
+    font-weight: 600;
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    margin-left: 0.3rem;
+  }
+}

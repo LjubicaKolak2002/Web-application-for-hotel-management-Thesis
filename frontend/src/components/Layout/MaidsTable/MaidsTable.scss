@@ -1,0 +1,68 @@
+.maids-table-list {
+  background: #f4f6f8;
+  min-height: 100vh;
+  padding-left: 220px;
+
+  & h1 {
+    padding-left: 50px;
+    position: relative;
+    top: 70px;
+    color: #4c445d;
+    font-family: Roboto, sans-serif;
+    font-size: 1.75rem;
+    font-weight: 700;
+  }
+}
+
+.maids-table-wrapper {
+  overflow-x: auto;
+  padding: 16px;
+  display: flex;
+  justify-content: center;
+  margin-top: 35px;
+}
+.maids-table {
+  width: 95%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-top: 40px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  background: #fff;
+
+  thead {
+    tr {
+      height: 45px;
+    }
+  }
+
+  th,
+  td {
+    padding: 10px 8px;
+    min-width: 90px;
+    border-bottom: 1px solid #eee;
+    text-align: left;
+    font-size: 14px;
+  }
+
+  td {
+    background-color: #fff;
+  }
+
+  th {
+    background-color: #fff;
+    font-weight: 600;
+    color: #333;
+  }
+
+  tr:hover {
+    background-color: #f4f6f8c9;
+  }
+}
+
+.maids-table-list-pagination-wrapper {
+  position: relative;
+  bottom: 1.5rem;
+}

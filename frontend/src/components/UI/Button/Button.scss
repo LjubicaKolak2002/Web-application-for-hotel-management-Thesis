@@ -1,0 +1,82 @@
+.button {
+  padding: 0.5rem 1.6rem;
+  border-radius: 7px;
+  border: none;
+  color: white;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: background-color 0.3s ease;
+
+  &.add {
+    background-color: #51486a;
+
+    &:hover {
+      background-color: #352f44;
+    }
+  }
+
+  &.maids {
+    background-color: #55369a;
+
+    &:hover {
+      background-color: rgb(70, 65, 82);
+    }
+  }
+
+  &.optional {
+    background-color: #5c5470;
+
+    &:hover {
+      background-color: #3e3459;
+    }
+  }
+
+  &.default {
+    background-color: #717397;
+
+    &:hover:not(:disabled) {
+      background-color: #555885;
+    }
+  }
+
+  &:disabled {
+    background-color: #ccc !important;
+    color: #666;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  &.checkIn {
+    background-color: #dbd8e3;
+
+    &:hover {
+      background-color: #7f7e84;
+    }
+  }
+
+  &.delete {
+    background-color: #f95959;
+    color: #fff;
+
+    &:hover {
+      background-color: #f03d3d;
+    }
+  }
+
+  &.red {
+    color: #f95959;
+    background-color: #fff;
+  }
+  &.checked {
+    color: #352f44;
+    background: none;
+  }
+
+  &.checkOut {
+    background-color: #51486a;
+
+    &:hover {
+      background-color: #423d52;
+    }
+  }
+}

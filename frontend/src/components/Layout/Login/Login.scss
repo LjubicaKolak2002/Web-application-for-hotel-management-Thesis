@@ -1,0 +1,42 @@
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  & .submitButton {
+    margin-top: 24px;
+  }
+}
+
+.login-header {
+  font-size: 1.75rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  text-align: center;
+  color: #4c445d;
+  margin-top: 8px;
+}
+
+.register-paragraph {
+  margin-bottom: 1rem;
+  margin-top: 0;
+  background-color: #dbd8e3;
+  height: 50px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  a {
+    color: #2a2438;
+    text-decoration: none;
+    font-weight: 500;
+    margin-left: 5px;
+  }
+}
+
+.fa-circle-user {
+  color: #352f44;
+  margin-right: 6px;
+  font-size: 18px;
+  margin-top: 2px;
+}

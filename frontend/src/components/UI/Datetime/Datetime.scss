@@ -1,0 +1,22 @@
+.date-time-input {
+  width: 100%;
+  height: 56px;
+  padding: 0.6rem 1rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #fff;
+  color: #333;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+
+  &:focus {
+    outline: none;
+    border-color: #0077cc;
+    box-shadow: 0 0 0 3px rgba(0, 119, 204, 0.2);
+  }
+
+  &::placeholder {
+    color: #aaa;
+  }
+}

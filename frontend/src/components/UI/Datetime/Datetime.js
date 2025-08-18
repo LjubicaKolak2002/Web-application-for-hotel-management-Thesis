@@ -1,4 +1,4 @@
-import "./Datetime.css";
+import "./Datetime.scss";
 
 const DatetimeInput = (props) => {
   return (
@@ -10,7 +10,7 @@ const DatetimeInput = (props) => {
       onBlur={props.onBlur}
       placeholder={props.placeholder}
       required
-      className="input"
+      className="date-time-input"
     />
   );
 };

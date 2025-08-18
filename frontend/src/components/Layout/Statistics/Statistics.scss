@@ -1,0 +1,257 @@
+$primary-color: #55369a;
+$card-bg: #ffffff;
+$page-bg: #f4f6f8;
+$text-color: #333;
+$text-secondary: #777;
+$shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+
+.statistics {
+  background: $page-bg;
+  padding: 2rem;
+  font-family: "Roboto", sans-serif;
+  color: $text-color;
+  //margin-top: 50px;
+  padding-left: 250px;
+
+  &__topWrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.2rem;
+    margin-bottom: 0.5rem;
+    justify-content: space-between;
+  }
+
+  .infoPanel {
+    flex: 2 1 140px;
+    padding: 0.6rem 0.8rem;
+    background: $card-bg;
+    border-radius: 12px;
+    box-shadow: $shadow;
+
+    .statistics__header {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: darken($primary-color, 10%);
+      margin-top: 1rem;
+      margin-bottom: 0.8rem;
+      text-align: center;
+    }
+
+    .statistics__infoGroup {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      justify-content: space-between;
+    }
+
+    .statRow {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 0.5rem;
+      flex: 1 1 100%;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .statCard {
+      flex: 1 1 150px;
+      padding: 0.4rem 0.6rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: transform 0.2s, box-shadow 0.2s;
+
+      .statCard__label {
+        font-size: 0.75rem;
+        font-weight: 500;
+        color: darken($primary-color, 20%);
+        margin-bottom: 0.4rem;
+        text-align: center;
+      }
+      .statCard__value {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: $primary-color;
+        line-height: 1;
+      }
+    }
+  }
+
+  .chartPanel {
+    flex: 1 1 350px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.2rem;
+    justify-content: center;
+
+    .chartCard {
+      flex: 1 1 280px;
+      background: $card-bg;
+      border-radius: 12px;
+      padding: 0.8rem;
+      box-shadow: $shadow;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: transform 0.2s;
+
+      &:hover {
+        transform: translateY(-2px);
+      }
+
+      .chartCard__title {
+        font-size: 1rem;
+        font-weight: 600;
+        color: darken($primary-color, 15%);
+        margin-bottom: 0.6rem;
+        text-align: center;
+      }
+      .chartCard__subtitle {
+        font-size: 0.85rem;
+        color: #555;
+        font-weight: 500;
+        margin-top: 0.4rem; // razmak između grafikona i teksta
+      }
+
+      canvas {
+        width: 90% !important;
+        max-width: 200px !important;
+        height: auto !important;
+      }
+    }
+  }
+  .earningsPanel {
+    flex: 1 1 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 5rem;
+    position: relative;
+    top: 4rem;
+
+    .earningsHeader {
+      flex: 1 1 100%;
+      display: flex;
+      justify-content: flex-start;
+      margin-bottom: 1rem;
+
+      .yearLabel {
+        font-size: 1rem;
+        color: #555;
+        font-weight: 500;
+
+        input {
+          margin-left: 0.75rem;
+          padding: 0.3rem 0.5rem;
+          width: 9rem;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+          font-size: 1rem;
+          color: #333;
+        }
+      }
+    }
+
+    .barChartCard {
+      flex: 2 1 600px;
+      background: $card-bg;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: $shadow;
+      min-height: 400px;
+      height: 352px;
+      width: 915px;
+    }
+
+    .earningsInfo {
+      flex: 1 1 280px;
+      background: $card-bg;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: $shadow;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      .earningsInfo__title {
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: darken($primary-color, 15%);
+        margin-bottom: 1rem;
+        text-align: left;
+      }
+      .earningsInfo__line {
+        font-size: 1rem;
+        margin: 0.75rem 0;
+        display: flex;
+        justify-content: space-between;
+        color: #444;
+
+        .earningsInfo__value {
+          font-weight: 600;
+          color: $primary-color;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 1000px) {
+    &__topWrapper {
+      flex-direction: column;
+      align-items: center;
+    }
+    .infoPanel,
+    .chartPanel {
+      flex: 1 1 100%;
+      max-width: 600px;
+    }
+    .earningsPanel {
+      flex-direction: column;
+      align-items: center;
+    }
+    .barChartCard,
+    .earningsInfo {
+      flex: 1 1 100%;
+      max-width: 600px;
+      margin-bottom: 1.5rem;
+    }
+    .barChartCard {
+      min-height: 300px;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .earningsHeader .yearLabel {
+      flex-direction: column;
+      align-items: flex-start;
+      input {
+        margin-left: 0;
+        margin-top: 0.5rem;
+        width: 100%;
+        max-width: 120px;
+      }
+    }
+  }
+}
+
+.toggleButton1,
+.toggleButton2 {
+  padding: 6px 12px;
+  font-size: 0.9rem;
+  //background-color: #55369a;
+  color: #55369a;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.toggleButton1 {
+  margin-top: 10px;
+}
+
+.toggleButton2 {
+  margin-top: 30px;
+}

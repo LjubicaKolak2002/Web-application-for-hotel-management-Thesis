@@ -1,0 +1,301 @@
+.navbar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 50px;
+  background-color: #5c5470;
+  z-index: 999;
+  padding: 0 20px;
+  font-family: "Poppins", sans-serif;
+
+  .navbar_container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    width: 100%;
+  }
+
+  .navbar_left,
+  .navbar_center,
+  .navbar_right {
+    display: flex;
+    align-items: center;
+  }
+
+  .navbar_left {
+    flex: 1;
+  }
+
+  .navbar_center {
+    color: #f8f5f5;
+    flex: 3 1;
+    justify-content: flex-start;
+    left: -160px;
+    position: relative;
+
+    .navbar_links {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+      margin: 0;
+      padding: 0;
+
+      li a {
+        color: white;
+        text-decoration: none;
+        font-size: 16px;
+        transition: 0.3s;
+
+        &:hover {
+          text-decoration: underline;
+          color: white;
+        }
+      }
+    }
+  }
+
+  .navbar_right {
+    flex: 0 0 auto;
+    width: auto;
+    justify-content: flex-end;
+
+    ul {
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0;
+      //padding: 0;
+
+      li {
+        color: white;
+        //font-weight: 600;
+      }
+    }
+  }
+
+  .navbar_logo {
+    display: flex;
+    align-items: center;
+
+    img {
+      width: 40px;
+      height: 50px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: 10px;
+    }
+
+    .navbar__title {
+      color: #fff;
+      font-size: 20px;
+      margin-top: 5px;
+      position: relative;
+      right: 15px;
+      font-weight: bolder;
+    }
+  }
+}
+
+.navbar_right > ul {
+  display: flex;
+  gap: 1rem;
+}
+
+.dropdown {
+  position: relative;
+
+  .dropdown-toggle {
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 10px;
+    transition: background 0.2s;
+    /*  &:hover {
+      background: rgba(255, 255, 255, 0.15);
+    } */
+  }
+  .dropdown-menu {
+    position: absolute;
+    top: calc(100% + 4px);
+    //right: 0;
+    display: flex;
+    flex-direction: column;
+    background: #5c5470;
+    border-radius: 6px;
+    //padding: 0.5rem 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    text-decoration: none;
+    left: 0;
+    right: auto;
+
+    align-items: flex-start;
+
+    li a {
+      padding: 0.5rem 1rem;
+      color: #fff;
+      white-space: nowrap;
+      text-decoration: none;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+.user-menu {
+  min-width: unset;
+  width: 127px;
+  padding: 0.25rem 0;
+
+  li a {
+    font-size: 14px;
+    padding: 0.4rem 0.8rem;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    i {
+      font-size: 14px;
+    }
+  }
+}
+
+.reservations-menu {
+  padding: 0.25rem 0;
+  box-sizing: border-box;
+
+  li a {
+    font-size: 15px;
+    padding: 0.25rem 0.5rem;
+    //text-align: center;
+    display: block;
+    white-space: normal;
+    line-height: 1.2;
+  }
+}
+
+.fa-user {
+  margin-right: 5px;
+}
+
+.login-li a {
+  color: #ffffff;
+  font-weight: 600;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.register-li a {
+  color: #ffffff;
+  font-weight: 600;
+  padding: 8px 12px;
+  border: 1px solid #ffffff;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  text-decoration: none;
+
+  &:hover {
+    background-color: #ffffff;
+    color: #5c5470;
+    text-decoration: none;
+  }
+}
+
+.hamburger-icon {
+  display: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #333;
+}
+
+.mobile-menu {
+  background: #fff;
+  padding: 1rem;
+  border-top: 1px solid #eee;
+
+  ul {
+    list-style: none;
+    padding: 0;
+
+    li {
+      margin-bottom: 1rem;
+
+      a {
+        text-decoration: none;
+        color: #333;
+        font-weight: 500;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar_center {
+    display: none !important;
+  }
+
+  .navbar_right > ul {
+    display: none !important;
+  }
+
+  .hamburger-icon {
+    display: block !important;
+    color: white;
+    font-size: 24px;
+  }
+
+  .mobile-menu {
+    display: block;
+    position: absolute;
+    top: 50px; // ispod navbar-a
+    left: 0;
+    width: 100%;
+    background-color: #5c5470;
+    z-index: 998;
+    padding: 10px 20px;
+
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+
+      li {
+        margin-bottom: 10px;
+
+        a {
+          color: white;
+          text-decoration: none;
+          font-size: 16px;
+          font-weight: 500;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+  }
+}
+
+.navbar_right {
+  .reservations-dropdown {
+    .reservations-menu {
+      padding: 1rem 0 !important;
+
+      li a {
+        padding: 0.45rem 0.25rem !important;
+        width: 100%;
+        text-align: left;
+      }
+    }
+  }
+}

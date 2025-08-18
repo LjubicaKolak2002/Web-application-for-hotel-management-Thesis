@@ -1,0 +1,89 @@
+.maids-checkList {
+  background: #f4f6f8;
+  min-height: 100vh;
+  padding-left: 220px;
+
+  h2 {
+    color: #4c445d;
+    font-family: Roboto, sans-serif;
+    font-size: 1.75rem;
+    position: relative;
+    top: 70px;
+    font-weight: bold;
+    margin-left: 90px;
+    width: 50%;
+  }
+
+  .tabs-wrapper {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    margin-right: 92px;
+    margin-top: 10px;
+  }
+}
+
+.maids-checkList-table-wrapper {
+  overflow-x: auto;
+  padding: 16px;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  top: 20px;
+}
+.maids-checkList-table {
+  width: 90%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-top: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  background: #fff;
+
+  thead {
+    tr {
+      height: 45px;
+    }
+  }
+
+  th,
+  td {
+    padding: 4px 8px;
+    min-width: 90px;
+    border-bottom: 1px solid #eee;
+    text-align: left;
+    font-size: 14px;
+  }
+
+  td {
+    background-color: #fff;
+  }
+
+  th {
+    background-color: #fff;
+    font-weight: 600;
+    color: #333;
+  }
+
+  tr:hover {
+    background-color: #f4f6f8c9;
+  }
+}
+
+.baby-note {
+  font-size: 0.75rem;
+  color: green;
+  margin-top: 4px;
+  font-weight: 600;
+}
+
+.maids-no-rooms {
+  color: #4c445d;
+  justify-content: center;
+
+  margin-left: 90px;
+  margin-top: 40px;
+  font-size: 1.1rem;
+}

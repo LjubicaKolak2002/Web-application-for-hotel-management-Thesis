@@ -1,0 +1,95 @@
+.edit-room-main-container {
+  padding-left: 220px;
+}
+
+.edit-room-form {
+  display: flex;
+  gap: 16px;
+
+  @media screen and (max-width: 768px) {
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  @media screen and (min-width: 768px) {
+    // desktop
+    flex-direction: row;
+  }
+}
+
+.submitButton {
+  margin-top: 30px;
+}
+
+.edit-room-form-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  & .submitButton {
+    margin-top: 24px;
+  }
+}
+.edit-room-header {
+  font-size: 1.75rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  text-align: center;
+  color: #4c445d;
+  margin-top: 8px;
+}
+
+.edit-room-column {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+
+  .feature-group,
+  .file-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  @media screen and (min-width: 768px) {
+    width: 50%;
+  }
+}
+
+label {
+  display: inline-block;
+  position: relative;
+  top: 10px;
+  left: 2px;
+}
+
+.edit-room-features {
+  position: relative;
+  bottom: 4px;
+}
+
+.edit-room-picture-span {
+  position: relative;
+  top: 4px;
+}
+
+.edit-room-file-upload {
+  position: relative;
+  top: 7px;
+}
+
+.edit-room-status {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.room-image-preview {
+  border-radius: 4px;
+  display: block;
+  height: 140px;
+  /* margin-top: 15px; */
+  width: 250px;
+}

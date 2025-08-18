@@ -1,0 +1,191 @@
+.check-list {
+  background: #f4f6f8;
+  min-height: 100vh;
+  padding-left: 220px;
+  position: relative;
+  /* bottom: 1rem; */
+
+  .check-list-header {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: space-between;
+    /* margin-top: 0px; */
+    position: relative;
+    top: 30px;
+  }
+
+  .check-list-date-picker-wrapper,
+  .check-list-tabs-wrapper {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    margin-right: 18px;
+  }
+
+  .date-input-check-list {
+    position: relative;
+    top: 9px;
+    width: 240px;
+    margin-left: 18px;
+  }
+
+  h3 {
+    position: relative;
+    top: 40px;
+    text-align: center;
+    color: #4c445d;
+    font-size: 1.5rem;
+    font-family: "Roboto", sans-serif;
+    margin-top: 20px;
+  }
+}
+
+.checkList-table-wrapper {
+  overflow-x: auto;
+  padding: 16px;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  top: 20px;
+  margin-right: 18px;
+}
+.checkList-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-top: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  background: #fff;
+
+  a {
+    font-weight: bold;
+    position: relative;
+    top: 3px;
+    color: #4c445d;
+    text-decoration: none;
+    position: relative;
+    top: 5px;
+    font-size: 0.75rem;
+  }
+
+  thead {
+    tr {
+      height: 45px;
+    }
+  }
+
+  th,
+  td {
+    padding: 4px 8px;
+    min-width: 90px;
+    border-bottom: 1px solid #eee;
+    text-align: left;
+    font-size: 14px;
+  }
+
+  td {
+    background-color: #fff;
+  }
+
+  th {
+    background-color: #fff;
+    font-weight: 600;
+    color: #333;
+  }
+
+  tr:hover {
+    background-color: #f4f6f8c9;
+  }
+}
+
+.messageCheckIn {
+  color: red;
+  font-weight: bolder;
+}
+
+.babyBed {
+  color: rgb(4, 152, 4);
+  font-weight: bolder;
+  font-size: 13px;
+  margin-bottom: 5px;
+}
+
+.Toastify__toast-container--top-center {
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  top: 20px !important;
+  width: auto !important;
+  max-width: 400px !important;
+}
+
+.select-checks {
+  height: 45px;
+  width: 160px;
+}
+
+.status-label {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-weight: 500;
+  text-transform: capitalize;
+  font-size: 0.9rem;
+  display: inline-block;
+}
+
+.status-reserved {
+  background-color: #f0f0f5;
+  color: #333;
+}
+
+.status-checked-in {
+  background-color: #d1e7dd;
+  color: #0f5132;
+}
+
+.status-checked-out {
+  background-color: #f8d7da;
+  color: #842029;
+}
+
+.date-input-wrapper {
+  position: relative;
+  display: inline-block;
+  width: fit-content;
+}
+
+.date-input-check-list {
+  padding-right: 30px; // prostor za ikonicu
+}
+
+.calendar-icon {
+  position: absolute;
+  right: 10px;
+  top: 70%;
+  transform: translateY(-50%);
+  color: #5c5470;
+  pointer-events: none;
+}
+
+.check-list-no-reservations {
+  color: #4c445d;
+  font-family: Roboto, sans-serif;
+  font-size: 1.25rem;
+  position: relative;
+  top: 50px;
+  margin-left: 490px;
+}
+
+.clickable-note {
+  color: red;
+  font-weight: bolder;
+  cursor: pointer;
+
+  &:hover {
+    color: rgb(180, 11, 11);
+  }
+}

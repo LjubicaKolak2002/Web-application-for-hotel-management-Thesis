@@ -1,0 +1,132 @@
+.future-reservations-container {
+  min-height: 100vh;
+  background-color: #f4f6f8;
+  margin-top: 50px;
+
+  h2 {
+    position: relative;
+    top: 50px;
+    text-align: center;
+    font-size: 1.75rem;
+    color: #4c445d;
+  }
+}
+
+.futureResList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  padding: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+
+  .noRes {
+    color: #5c5470;
+    font-style: italic;
+    text-align: center;
+    font-size: 1.5rem;
+    margin-top: 25px;
+  }
+
+  .resCardItem {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    font-family: "Roboto", sans-serif;
+    margin-top: 30px;
+
+    .resHeader {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .roomNumber {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #453861;
+      }
+      .status {
+        text-transform: capitalize;
+        padding: 0.2rem 0.6rem;
+        border-radius: 8px;
+        font-size: 0.85rem;
+        &.reserved {
+          background: #e0f2ff;
+          color: #005ea6;
+        }
+        &.cancelled {
+          background: #ffe0e0;
+          color: #c53030;
+        }
+      }
+    }
+
+    .resBody {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 0.5rem;
+
+      div {
+        font-size: 0.95rem;
+        color: #444;
+      }
+
+      .priceLine {
+        margin-top: 0.5rem;
+      }
+
+      .priceTag {
+        background-color: #fff4c1;
+        color: #c49d03;
+        font-weight: 600;
+        padding: 0.2rem 0.6rem;
+        border-radius: 4px;
+        margin-left: 0.3rem;
+        display: inline-block;
+      }
+    }
+
+    .cancelBtn {
+      align-self: flex-end;
+      //margin-top: 1rem;
+      background-color: #d23e4b;
+      color: white;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background-color 0.2s ease;
+
+      &:hover {
+        background-color: #c53030;
+      }
+
+      &:disabled {
+        background-color: #ccc;
+        color: #666;
+        cursor: not-allowed;
+      }
+    }
+  }
+}
+
+.cancelNote {
+  font-size: 0.875rem;
+  color: #c53030;
+  position: relative;
+  //top: 10px;
+  font-style: italic;
+}
+
+.cancelWrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  align-self: flex-end;
+}

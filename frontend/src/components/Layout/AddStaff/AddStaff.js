@@ -6,6 +6,8 @@ import SubmitBtn from "../../UI/SubmitBtn/SubmitBtn";
 import ErrorMessage from "../../UI/ErrorMessage/ErrorMessage";
 import Select from "../../UI/Select/Select";
 import { validateField } from "../../../utils/validation";
+import MainLayout from "../MainLayout/MainLayout";
+import "./AddStaff.scss";
 
 const AddStaff = () => {
   const navigate = useNavigate();
@@ -33,7 +35,7 @@ const AddStaff = () => {
 
     setErrors((prev) => ({
       ...prev,
-      [name]: error, // Ažuriraj grešku za polje
+      [name]: error,
     }));
   }
 
@@ -66,103 +68,108 @@ const AddStaff = () => {
   }
 
   return (
-    <div className="outer">
-      <div className="form">
-        <div className="form-body">
-          <header>Add Staff</header>
-          <br />
+    <div className="add-staff-main-container">
+      <MainLayout isDoubleForm={true}>
+        <div className="add-staff">
+          <header className="add-staff-header">Add staff</header>
 
-          <form onSubmit={handleRegister}>
-            <Input
-              value={formData.name}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              placeholder="Name"
-              name="name"
-            />
-            <ErrorMessage message={errors.name} />
-            <br />
+          <form onSubmit={handleRegister} className="add-staff-form-wrapper">
+            <div className="add-staff-form">
+              <div className="add-staff-column">
+                <Input
+                  value={formData.name}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  placeholder="Name"
+                  name="name"
+                  iconClass="fa-solid fa-user"
+                />
+                <ErrorMessage message={errors.name} />
 
-            <Input
-              value={formData.surname}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              placeholder="Surname"
-              name="surname"
-            />
-            <ErrorMessage message={errors.surname} />
-            <br />
+                <Input
+                  value={formData.surname}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  placeholder="Surname"
+                  name="surname"
+                  iconClass="fa-solid fa-user"
+                />
+                <ErrorMessage message={errors.surname} />
 
-            <Input
-              value={formData.username}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              placeholder="Username"
-              name="username"
-            />
-            <ErrorMessage message={errors.username} />
-            <br />
+                <Input
+                  value={formData.username}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  placeholder="Username"
+                  name="username"
+                  iconClass="fa-solid fa-user"
+                />
+                <ErrorMessage message={errors.username} />
 
-            <Input
-              value={formData.email}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              placeholder="Email"
-              name="email"
-              className={errors.email ? "error-input" : ""}
-            />
-            <ErrorMessage message={errors.email} />
-            <br />
+                <Input
+                  value={formData.email}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  placeholder="Email"
+                  name="email"
+                  className="input"
+                  iconClass="fa-solid fa-envelope"
+                />
+                <ErrorMessage message={errors.email} />
+              </div>
 
-            <Input
-              value={formData.phone}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              placeholder="Phone"
-              name="phone"
-            />
-            <ErrorMessage message={errors.phone} />
-            <br />
+              <div className="add-staff-column">
+                <Input
+                  value={formData.phone}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  placeholder="Phone"
+                  name="phone"
+                  iconClass="fa-solid fa-phone"
+                />
+                <ErrorMessage message={errors.phone} />
 
-            <PasswordInput
-              value={formData.password}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              placeholder="Password"
-              name="password"
-            />
-            <ErrorMessage message={errors.password} />
-            <br />
+                <PasswordInput
+                  value={formData.password}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  placeholder="Password"
+                  name="password"
+                  iconClass="fa-solid fa-lock"
+                />
+                <ErrorMessage message={errors.password} />
 
-            <PasswordInput
-              value={formData.password2}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              placeholder="Repeat password"
-              name="password2"
-            />
-            <ErrorMessage message={errors.password2} />
-            <br />
-            {/* TODO nova komponenta */}
-            <Select
-              name="role"
-              value={formData.role}
-              onChange={handleChange}
-              options={[
-                { value: "recepcionist", label: "Recepcionist" },
-                { value: "maid", label: "Maid" },
-                { value: "head maid", label: "Head maid" },
-              ]}
-            />
+                <PasswordInput
+                  value={formData.password2}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  placeholder="Repeat password"
+                  name="password2"
+                  iconClass="fa-solid fa-lock"
+                />
+                <ErrorMessage message={errors.password2} />
 
-            <ErrorMessage message={errors.role} />
-            <br />
-            <br />
+                {/* TODO nova komponenta */}
+                <Select
+                  name="role"
+                  value={formData.role}
+                  onChange={handleChange}
+                  options={[
+                    { value: "receptionist", label: "Receptionist" },
+                    { value: "maid", label: "Maid" },
+                    { value: "head maid", label: "Head maid" },
+                  ]}
+                  placeholder="Select role"
+                />
+
+                <ErrorMessage message={errors.role} />
+              </div>
+            </div>
 
             <SubmitBtn label="Add Staff" />
           </form>
         </div>
-      </div>
+      </MainLayout>
     </div>
   );
 };

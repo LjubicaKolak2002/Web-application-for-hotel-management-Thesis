@@ -1,0 +1,30 @@
+// .App {
+//   display: flex;
+// }
+
+// .content {
+//   flex: 1;
+//   min-height: 100vh;
+//   padding-top: 20px;
+//   padding-right: 20px;
+//   transition: padding-left 0.3s ease;
+// }
+
+// .sidebar-open {
+//   padding-left: 250px; // Sidebar otvoren, guramo sadržaj
+// }
+
+// .sidebar-closed {
+//   padding-left: 70px; // Sidebar zatvoren, možda samo mini traka ili minimalan prostor
+// }
+
+.App {
+  display: flex;
+  flex-direction: column;
+}
+
+.content-with-navbar {
+  //margin-top: 60px; // Visina navigacije
+  //padding: 20px;
+  min-height: calc(100vh - 50px);
+}

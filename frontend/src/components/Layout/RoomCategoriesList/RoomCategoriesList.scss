@@ -1,0 +1,97 @@
+.categoriesContainer.admin-categoriesContainer {
+  padding-left: 220px;
+
+  .categories-title.admin-categories-title {
+    font-size: 1.65rem;
+    color: #4c445d;
+    font-weight: bold;
+    margin-top: 40px;
+  }
+}
+
+.categoriesContainer {
+  align-items: center;
+  background: #f4f6f8;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  font-family: Roboto, sans-serif;
+  min-height: 100vh;
+  padding: 2rem 1rem;
+
+  /* margin-bottom: 20px;*/
+  .categories-title {
+    font-size: 1.65rem;
+    color: #4c445d;
+    margin-top: 80px;
+    font-weight: bold;
+    margin-bottom: 30px;
+  }
+
+  .no-data {
+    text-align: center;
+    font-style: italic;
+    font-size: 1rem;
+    color: #666;
+  }
+
+  .categoriesTable {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+    max-width: 800px;
+  }
+
+  .categoryCard {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fff;
+    border: 1px solid rgba(92, 84, 112, 0.1);
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+    padding: 1.5rem;
+
+    .categoryInfo {
+      h3 {
+        font-size: 1.3rem;
+        color: #4c445d;
+        margin-bottom: 0.25rem;
+        font-weight: 600;
+      }
+      p {
+        font-size: 1rem;
+        color: #666;
+      }
+    }
+
+    .deleteBtn {
+      background: none;
+      border: none;
+      color: #d14343;
+      cursor: pointer;
+      transition: color 0.2s ease;
+
+      &:hover {
+        color: #a93535;
+      }
+    }
+  }
+
+  .addCategory {
+    margin-top: 1rem;
+
+    a {
+      color: #5c5470;
+      font-size: 1.1rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: opacity 0.2s ease;
+
+      &:hover {
+        opacity: 0.7;
+      }
+    }
+  }
+}
