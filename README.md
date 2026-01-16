@@ -4,6 +4,11 @@ A web application for managing hotel room reservations, housekeeping organizatio
 The system supports multiple roles (guests, registered users, staff, and admin), each with a dedicated dashboard and permissions.
 
 ## Tech Stack
+![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black) 
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white)
+![Express](https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express&logoColor=white) 
+![Postman](https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=postman&logoColor=white) 
+![PayPal](https://img.shields.io/badge/PayPal-003087?logo=paypal&logoColor=white)
 
 ![React](https://img.shields.io/badge/React-20232A?logo=react&logoColor=61DAFB)
 ![Node.js](https://img.shields.io/badge/Node.js-20232A?logo=node.js&logoColor=339933)
