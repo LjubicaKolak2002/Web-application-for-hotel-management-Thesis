@@ -5,10 +5,12 @@ The system supports multiple roles (guests, registered users, staff, and admin),
 
 ## Tech Stack
 
-* **Frontend:** React.js
-* **Backend:** Node.js (Express)
-* **Database:** MongoDB
-* **Payments:** PayPal (room reservation payments)
+![React](https://img.shields.io/badge/React-20232A?logo=react&logoColor=61DAFB)
+![Node.js](https://img.shields.io/badge/Node.js-20232A?logo=node.js&logoColor=339933)
+![Express](https://img.shields.io/badge/Express-000000?logo=express&logoColor=white)
+![MongoDB](https://img.shields.io/badge/MongoDB-20232A?logo=mongodb&logoColor=47A248)
+![PayPal](https://img.shields.io/badge/PayPal-003087?logo=paypal&logoColor=white)
+
 
 ## Main Features
 
